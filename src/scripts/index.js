@@ -1,6 +1,6 @@
 import '../styles/sanitize.css';
 import '../styles/style.css';
-import { themeOnLoad, toggleTheme } from './site-settings';
+import { themeOnLoad, toggleTheme } from './app-settings';
 
 window.addEventListener('load', themeOnLoad);
 
