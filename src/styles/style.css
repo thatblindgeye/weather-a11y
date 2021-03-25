@@ -4,8 +4,9 @@
     2. global styles
     3. accessibility
     4. header
-      4.1 main nav
-    5. main content
+    5. main
+      5.1 main nav
+      5.2 main content
     6. footer
       6.1 secondary nav
     7. media queries
@@ -35,7 +36,11 @@
   --color-secondary: ; /* 50-200 tonal range */
   --color-secondary-var: ; /* 50-200 tonal range */
   /* backgrounds */
-  --background-base: rgb(18, 18, 18);
+  --bg-base: rgb(18, 18, 30);
+  --bg-accessibility: rgb(30, 30, 120);
+  --bg-header: rgb(18, 18, 80);
+  --bg-search-input: rgb(30, 30, 30);
+  --bg-search-btn: rgb(30, 30, 140);
   /* elevation refs */
   --elevation-00dp: rgb(18, 18, 18); /* text btn, top app bar (rest), */
   --elevation-01dp: rgb(30, 30, 30); /* searchbar (rest), card (rest), switch */
@@ -53,10 +58,19 @@
   --elevation-24dp: rgb(56, 56, 56); /* dialogue */
   /* text */
   --text-primary: rgb(255, 255, 255, 0.87);
-  /* borders */
-  --border-primary: rgba(255, 255, 255, 0.87);
-  --focus-border: 2px solid rgba(255, 255, 255, 0.87);
-  /* images */
+  /* borders/outlines */
+  --border-primary: 1px solid rgba(255, 255, 255, 0.6);
+  --border-primary-focus: 2px solid rgb(255, 255, 255);
+  --border-input: 1px inset rgba(255, 255, 255, 0.6);
+  --border-input-focus: 2px inset rgba(255, 255, 255, 0.87);
+  --border-search-btn: 1px outset rgba(255, 255, 255, 0.6);
+  --border-search-btn-focus: 2px outset rgba(255, 255, 255, 0.87);
+  --border-switch: 1px solid rgba(255, 255, 255, 0.6);
+  --border-switch-focus: 2px solid rgb(255, 255, 255);
+  --border-nav-tab: 2px solid rgba(60, 60, 255, 0.87);
+  --border-nav-tab-inactive: 2px solid rgba(60, 60, 255, 0.38);
+  --outline-primary-focus: 1px solid rgba(255, 255, 255, 0.87);
+  /* images/icons */
   /* misc */
   --error: rgb(207, 102, 121);
   --warning: rgb(255, 245, 157);
@@ -71,13 +85,26 @@
   --color-secondary: ; /* 500 tonal range */
   --color-secondary-var: ; /* +/- 200 of primary */
   /* backgrounds */
-  --background-base: rgb(240, 240, 240);
+  --bg-base: rgb(255, 241, 210);
+  --bg-accessibility: rgb(255, 185, 65);
+  --bg-header: rgb(255, 166, 0);
+  --bg-search-input: rgb(240, 240, 240);
+  --bg-search-btn: rgb(220, 220, 220);
   /* text */
   --text-primary: rgba(0, 0, 0, 0.87);
-  /* borders */
-  --border-primary: rgba(0, 0, 0, 0.87);
-  --focus-border: 2px dotted rgba(0, 0, 0, 0.87);
-  /* images */
+  /* borders/outlines */
+  --border-primary: 1px solid rgba(0, 0, 0, 0.6);
+  --border-primary-focus: 1px solid rgb(0, 0, 0);
+  --border-input: 1px inset rgba(0, 0, 0, 0.6);
+  --border-input-focus: 2px inset rgba(0, 0, 0, 0.87);
+  --border-search-btn: 1px outset rgba(0, 0, 0, 0.6);
+  --border-search-btn-focus: 2px outset rgba(0, 0, 0, 0.87);
+  --border-switch: 1px solid rgba(0, 0, 0, 0.6);
+  --border-switch-focus: 2px solid rgb(0, 0, 0);
+  --border-nav-tab: 2px solid rgba(185, 121, 0, 0.87);
+  --border-nav-tab-inactive: 2px solid rgba(185, 121, 0, 0.38);
+  --outline-primary-focus: 1px solid rgba(0, 0, 0, 0.87);
+  /* images/icons */
   /* misc */
   --error: rgb(176, 0, 32);
   --warning: rgb(255, 235, 59);
@@ -90,12 +117,20 @@
   box-sizing: border-box;
 }
 
+*:focus {
+  outline: none;
+}
+
 body {
-  background-color: var(--background-base);
+  background-color: var(--bg-base);
 }
 
 a {
   text-decoration: none;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 /* ========== 3. accessibility ========== */
@@ -105,28 +140,40 @@ a {
   align-items: center;
   width: 100%;
   padding: 10px 20px;
+  background-color: var(--bg-accessibility);
 }
 
 #skip-link {
+  color: var(--text-primary);
+  border-bottom: 1px solid transparent;
   text-decoration: none;
+}
+
+#skip-link:hover,
+#skip-link:focus {
+  outline: none;
+  border-bottom: var(--border-primary);
 }
 
 #theme-switch {
   display: flex;
   align-items: center;
   width: 3.75rem;
-  height: 2rem;
+  height: 1.5rem;
   padding: 0 5px;
   border-radius: 10px;
-  background-color: var(--background-base);
-  border: 0.15rem solid var(--border-primary);
-  opacity: 0.8;
+  background-color: var(--bg-base);
+  border: var(--border-switch);
   overflow: hidden;
   transition: justify-content 2s ease-in;
 }
 
 #theme-switch:hover {
   cursor: pointer;
+}
+
+#theme-switch:focus {
+  border: var(--border-switch-focus);
 }
 
 #light-theme-icon,
@@ -136,25 +183,24 @@ a {
 
 #light-theme-icon {
   width: 50%;
+  height: 1.25rem;
   transform: translateX(3rem);
 }
 
 #dark-theme-icon {
   width: 50%;
+  height: 1.25rem;
   transform: translateX(-3rem);
 }
 
 /* ========== 4. header ========== */
 header {
-  background: linear-gradient(
-    orange,
-    var(--background-base),
-    var(--background-base)
-  );
+  background-color: var(--bg-header);
 }
 
 #app-logo {
   padding: 5px 10px;
+  color: var(--text-primary);
   font-size: 2.5rem;
 }
 
@@ -164,7 +210,8 @@ form {
   align-items: flex-start;
   max-width: 400px;
   min-height: 3.25rem;
-  margin: 20px 0;
+  margin: 20px 0 0;
+  padding-bottom: 10px;
 }
 
 .form-btn {
@@ -172,42 +219,77 @@ form {
   padding: 0;
 }
 
-.user-location-btn {
-  margin-right: 5px;
+.use-location-btn {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 10px;
   background-color: transparent;
   border: none;
 }
 
-.use-location-icon {
-  width: 2rem;
-  height: 2rem;
-  color: rgb(223, 128, 128);
+.use-location-btn:focus {
+  outline: var(--outline-primary-focus);
 }
 
-.search-btn {
-  width: 2rem;
-  height: 2rem;
-  border: 1px solid black;
+.use-location-icon {
+  color: var(--text-primary);
 }
 
 .search-container {
   display: flex;
   flex-direction: column;
-  width: calc(100% - 5rem);
+  width: calc(90% - 5rem);
 }
 
 input[type='text'] {
   height: 2rem;
   padding: 0 5px;
-  border: 1px solid black;
+  background-color: var(--bg-search-input);
+  border: var(--border-input);
+  color: var(--text-primary);
   font-size: 1rem;
 }
 
-/* ========== 4.1 main nav ========== */
+input[type='text']:focus {
+  border: var(--border-input-focus);
+}
+
+label[for='location-search'] {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.search-btn {
+  width: 3rem;
+  height: 2rem;
+  background-color: var(--bg-search-btn);
+  border: var(--border-search-btn);
+  border-left: none;
+}
+
+.search-btn:focus {
+  border: var(--border-search-btn-focus);
+}
+
+.search-icon {
+  color: var(--text-primary);
+}
+
+.search-error {
+  display: none;
+  padding: 10px;
+  background-color: var(--error);
+  font-size: 0.8rem;
+}
+
+/* ========== 5. main ========== */
+/* ========== 5.1 main nav ========== */
 #upper-nav {
+  position: sticky;
+  top: 0;
   width: 100%;
   min-height: 3rem;
-  background-color: var(--background-base);
+  background-color: var(--bg-base);
 }
 
 .forecast-tabs {
@@ -229,8 +311,9 @@ input[type='text'] {
   display: inline-block;
   width: 100%;
   height: 100%;
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--border-nav-tab-inactive);
   border-top: 2px solid transparent;
+  color: var(--text-primary);
   font-size: 1.1rem;
   text-align: center;
   line-height: 3rem;
@@ -239,17 +322,18 @@ input[type='text'] {
 .tab:hover,
 .tab:focus {
   outline: none;
-  border-bottom: 2px solid red;
-  border-top: 2px solid red;
+  border-bottom: var(--border-nav-tab);
+  border-top: var(--border-nav-tab);
 }
 
 .active-tab {
-  border-bottom: 2px solid red;
+  border-bottom: var(--border-nav-tab);
+  font-weight: bold;
 }
 
-/* ========== 5. main content ========== */
+/* ========== 5.2 main content ========== */
 #main {
-  height: 100vh;
+  height: 150vh;
   color: white;
 }
 

@@ -31,10 +31,6 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
     />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
   </head>
   <body>
     <header>
@@ -55,7 +51,7 @@
       <div id="app-logo">Weather a11y</div>
       <form role="search">
         <button
-          class="user-location-btn form-btn"
+          class="use-location-btn form-btn"
           type="button"
           aria-label="Use my location"
         >
@@ -65,16 +61,25 @@
             viewBox="0 0 24 24"
             width="24px"
             height="24px"
+            aria-hidden="true"
           >
             <path d="M0 0h24v24H0z" fill="none" />
             <path
-              d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+              d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"
             />
+            <path d="" />
           </svg>
         </button>
         <div class="search-container">
           <input id="location-search" type="text" />
-          <label for="location-search">Search for a location</label>
+          <div class="search-error">
+            Unable to find location. Make sure your search is formatted
+            properly, including commas between city, state, and country.
+          </div>
+          <label for="location-search"
+            >Enter city, state, and/or country<br />
+            <small>e.g. "Paris, FR" or "Paris, TX, US"</small></label
+          >
         </div>
         <button class="search-btn form-btn" type="submit">
           <svg
@@ -83,6 +88,7 @@
             viewBox="0 0 24 24"
             width="24px"
             height="24px"
+            aria-hidden="true"
           >
             <path d="M0 0h24v24H0z" fill="none" />
             <path
@@ -91,16 +97,16 @@
           </svg>
         </button>
       </form>
+    </header>
+
+    <main id="main">
       <nav id="upper-nav">
         <ul class="forecast-tabs">
-          <li><a class="active-tab tab" href="#">Current</a></li>
+          <li><a class="active-tab tab" href="#">Now</a></li>
           <li><a class="tab" href="#">Hourly</a></li>
           <li><a class="tab" href="#">7 Day</a></li>
         </ul>
       </nav>
-    </header>
-
-    <main id="main">
       <article class="forecast"></article>
     </main>
 
