@@ -36,7 +36,7 @@ const themeOnLoad = () => {
   }
 };
 
-const toggleTheme = (e) => {
+const toggleTheme = () => {
   if (document.documentElement.getAttribute('data-theme') === 'light') {
     _setDarkTheme();
   } else {

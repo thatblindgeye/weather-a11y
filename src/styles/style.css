@@ -166,7 +166,7 @@ button:hover {
   background-color: var(--bg-base);
   border: var(--border-switch);
   overflow: hidden;
-  transition: justify-content 2s ease-in;
+  transition: background-color 300ms linear;
 }
 
 #theme-switch:hover {
@@ -201,11 +201,24 @@ header {
   background-color: var(--bg-header);
 }
 
+.header-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 #app-logo {
+  margin: 0;
   padding: 5px 10px;
   color: var(--text-primary);
-  font-size: 2.5rem;
   word-spacing: 0.5rem;
+  text-align: center;
+}
+
+#app-logo > div {
+  margin: -5px 5px 0;
+  font-size: 0.9rem;
+  word-spacing: initial;
 }
 
 form {
@@ -397,7 +410,12 @@ footer {
 
 @media only screen and (min-width: 768px) {
   .header-main {
-    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  #app-logo {
+    text-align: left;
   }
 
   form {
