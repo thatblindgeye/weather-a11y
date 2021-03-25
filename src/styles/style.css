@@ -1,0 +1,290 @@
+/* 
+  Table of Contents
+    1. variables
+    2. global styles
+    3. accessibility
+    4. header
+      4.1 main nav
+    5. main content
+    6. footer
+      6.1 secondary nav
+    7. media queries
+      7.1 responsiveness
+      7.2 reduced motion
+*/
+
+/* ========== 1. variables ========== */
+:root {
+  /* text */
+  --text-black-high: rgba(0, 0, 0, 0.87);
+  --text-black-med: rgba(0, 0, 0, 0.6);
+  --text-black-low: rgba(0, 0, 0, 0.38);
+  --text-white-high: rgba(255, 255, 255, 0.87);
+  --text-white-med: rgba(255, 255, 255, 0.6);
+  --text-white-low: rgba(255, 255, 255, 0.38);
+  /* misc */
+  --active: 0.87;
+  --inactive: 0.6;
+  --disabled: 0.38;
+}
+
+:root[data-theme='dark'] {
+  /* brand colors */
+  --color-primary: ; /* 200 tonal range */
+  --color-primary-var: ; /* 500 tonal range */
+  --color-secondary: ; /* 50-200 tonal range */
+  --color-secondary-var: ; /* 50-200 tonal range */
+  /* backgrounds */
+  --background-base: rgb(18, 18, 18);
+  /* elevation refs */
+  --elevation-00dp: rgb(18, 18, 18); /* text btn, top app bar (rest), */
+  --elevation-01dp: rgb(30, 30, 30); /* searchbar (rest), card (rest), switch */
+  --elevation-02dp: rgb(33, 33, 33); /* btn (resting) */
+  --elevation-03dp: rgb(37, 37, 37); /* refresh indicator search bar */
+  --elevation-04dp: rgb(39, 39, 39); /* top app bar (scrolled/resting) */
+  --elevation-06dp: rgb(44, 44, 44); /* floating action btn snackbar */
+  --elevation-08dp: rgb(
+    46,
+    46,
+    46
+  ); /* bottom/side sheet, btm nav/app bar, menu/submenu, card (picked up), btn (pressed) */
+  --elevation-12dp: rgb(51, 51, 51); /* floating action btn (pressed) */
+  --elevation-16dp: rgb(54, 54, 54); /* modal bottom/side, nav drawer */
+  --elevation-24dp: rgb(56, 56, 56); /* dialogue */
+  /* text */
+  --text-primary: rgb(255, 255, 255, 0.87);
+  /* borders */
+  --border-primary: rgba(255, 255, 255, 0.87);
+  --focus-border: 2px solid rgba(255, 255, 255, 0.87);
+  /* images */
+  /* misc */
+  --error: rgb(207, 102, 121);
+  --warning: rgb(255, 245, 157);
+  --success: rgb(165, 214, 167);
+  --info: rgb(144, 202, 249);
+}
+
+:root[data-theme='light'] {
+  /* brand colors */
+  --color-primary: ; /* 500 tonal range */
+  --color-primary-var: ; /* +/- 200 of primary */
+  --color-secondary: ; /* 500 tonal range */
+  --color-secondary-var: ; /* +/- 200 of primary */
+  /* backgrounds */
+  --background-base: rgb(240, 240, 240);
+  /* text */
+  --text-primary: rgba(0, 0, 0, 0.87);
+  /* borders */
+  --border-primary: rgba(0, 0, 0, 0.87);
+  --focus-border: 2px dotted rgba(0, 0, 0, 0.87);
+  /* images */
+  /* misc */
+  --error: rgb(176, 0, 32);
+  --warning: rgb(255, 235, 59);
+  --success: rgb(76, 175, 80);
+  --info: rgb(33, 150, 243);
+}
+
+/* ========== 2. global styles ========== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background-base);
+}
+
+a {
+  text-decoration: none;
+}
+
+/* ========== 3. accessibility ========== */
+#accessibility-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+}
+
+#skip-link {
+  text-decoration: none;
+}
+
+#theme-switch {
+  display: flex;
+  align-items: center;
+  width: 3.75rem;
+  height: 2rem;
+  padding: 0 5px;
+  border-radius: 10px;
+  background-color: var(--background-base);
+  border: 0.15rem solid var(--border-primary);
+  opacity: 0.8;
+  overflow: hidden;
+  transition: justify-content 2s ease-in;
+}
+
+#theme-switch:hover {
+  cursor: pointer;
+}
+
+#light-theme-icon,
+#dark-theme-icon {
+  transition: transform 200ms linear;
+}
+
+#light-theme-icon {
+  width: 50%;
+  transform: translateX(3rem);
+}
+
+#dark-theme-icon {
+  width: 50%;
+  transform: translateX(-3rem);
+}
+
+/* ========== 4. header ========== */
+header {
+  background: linear-gradient(
+    orange,
+    var(--background-base),
+    var(--background-base)
+  );
+}
+
+#app-logo {
+  padding: 5px 10px;
+  font-size: 2.5rem;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 400px;
+  min-height: 3.25rem;
+  margin: 20px 0;
+}
+
+.form-btn {
+  margin: 0;
+  padding: 0;
+}
+
+.user-location-btn {
+  margin-right: 5px;
+  background-color: transparent;
+  border: none;
+}
+
+.use-location-icon {
+  width: 2rem;
+  height: 2rem;
+  color: rgb(223, 128, 128);
+}
+
+.search-btn {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid black;
+}
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 5rem);
+}
+
+input[type='text'] {
+  height: 2rem;
+  padding: 0 5px;
+  border: 1px solid black;
+  font-size: 1rem;
+}
+
+/* ========== 4.1 main nav ========== */
+#upper-nav {
+  width: 100%;
+  min-height: 3rem;
+  background-color: var(--background-base);
+}
+
+.forecast-tabs {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  list-style-type: none;
+}
+
+.forecast-tabs li {
+  display: inline-block;
+  width: 33.33%;
+  height: 100%;
+}
+
+.tab {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  border-bottom: 2px solid transparent;
+  border-top: 2px solid transparent;
+  font-size: 1.1rem;
+  text-align: center;
+  line-height: 3rem;
+}
+
+.tab:hover,
+.tab:focus {
+  outline: none;
+  border-bottom: 2px solid red;
+  border-top: 2px solid red;
+}
+
+.active-tab {
+  border-bottom: 2px solid red;
+}
+
+/* ========== 5. main content ========== */
+#main {
+  height: 100vh;
+  color: white;
+}
+
+/* ========== 6. footer ========== */
+
+/* ========== 6.1 secondary nav ========== */
+#lower-nav {
+  width: 100%;
+  height: 50px;
+  bottom: 0;
+  left: 0;
+  background: rgb(4, 0, 255);
+}
+
+/* ========== 7. media queries ========== */
+/* ========== 7.1 responsiveness ========== */
+@media only screen and (min-width: 430px) {
+}
+
+@media only screen and (min-width: 768px) {
+}
+
+@media only screen and (min-width: 992px) {
+}
+
+@media only screen and (min-width: 1200px) {
+}
+
+/* ========== 7.2 reduced motion ========== */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    scroll-behavior: unset !important;
+  }
+
+  .animated {
+    transition: none !important;
+  }
+}
