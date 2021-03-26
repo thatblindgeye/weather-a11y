@@ -211,6 +211,7 @@ header {
   margin: 0;
   padding: 5px 10px;
   color: var(--text-primary);
+  font-size: 2.5rem;
   word-spacing: 0.5rem;
   text-align: center;
 }
@@ -219,6 +220,8 @@ header {
   margin: -5px 5px 0;
   font-size: 0.9rem;
   word-spacing: initial;
+  font-weight: bold;
+  text-align: right;
 }
 
 form {

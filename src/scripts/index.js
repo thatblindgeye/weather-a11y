@@ -1,7 +1,7 @@
 import '../styles/sanitize.css';
 import '../styles/style.css';
 import { themeOnLoad, toggleTheme } from './app-settings';
-import { convertToCoordinates, getWeatherData } from './search-logic';
+import { convertToCoordinates, getUserLocation } from './search-logic';
 
 window.addEventListener('load', themeOnLoad);
 
@@ -15,6 +15,9 @@ document.querySelector('#theme-switch').addEventListener('keydown', (e) => {
 
 window.addEventListener('submit', (e) => {
   e.preventDefault();
-  const coordsPromise = new Promise(convertToCoordinates);
-  const getDataPromise = coordsPromise.then(getWeatherData);
+  convertToCoordinates();
 });
+
+document
+  .querySelector('.use-location-btn')
+  .addEventListener('click', getUserLocation);

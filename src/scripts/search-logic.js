@@ -1,11 +1,20 @@
-const getUserLocation = () => {
-  navigator.geolocation.getCurrentPosition((position) => {
-    console.log(position.coords.longitude, position.coords.latitude);
-  });
-};
-
-const API = '';
+const API = '13aa14e68e00ac80cb7c634dc1194d83';
 const searchInput = document.getElementById('location-search');
+let weatherData = null;
+
+function getWeather(lat, lon) {
+  fetch(
+    `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&units=imperial&appid=${API}`
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .then((weather) => {
+      console.log(weather);
+      weatherData = weather;
+      console.log(weatherData);
+    });
+}
 
 const convertToCoordinates = () => {
   fetch(
@@ -16,7 +25,6 @@ const convertToCoordinates = () => {
       if (response.status === 400) {
         throw new Error('Search field cannot be blank.');
       }
-      console.log(response);
       return response.json();
     })
     .then((locations) => {
@@ -26,22 +34,34 @@ const convertToCoordinates = () => {
       console.log(locations);
       return locations[0];
     })
+    .then((chosenLocation) => {
+      getWeather(chosenLocation.lat, chosenLocation.lon);
+    })
     .catch((reason) => {
       console.error(reason);
     });
 };
 
-const getWeatherData = (latCoord, lonCoord) => {
-  fetch(
-    `https://api.openweathermap.org/data/2.5/onecall?lat=${latCoord}&lon=${lonCoord}&exclude=minutely&units=imperial&appid=${API}`
-  )
-    .then((response) => {
-      console.log(response);
-      return response.json();
-    })
-    .then((weatherData) => {
-      console.log(weatherData);
-    });
+function geolocationSuccess(position) {
+  const { latitude, longitude } = position.coords;
+  getWeather(latitude, longitude);
+}
+
+function geolocationError(error) {
+  throw new Error('Unable to find your location.');
+}
+
+const geolocationOptions = {
+  timeout: 10000,
+  enableHighAccuracy: true,
 };
 
-export { convertToCoordinates, getWeatherData };
+const getUserLocation = () => {
+  navigator.geolocation.getCurrentPosition(
+    geolocationSuccess,
+    geolocationError,
+    geolocationOptions
+  );
+};
+
+export { convertToCoordinates, getUserLocation };
