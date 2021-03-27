@@ -67,8 +67,8 @@
   --border-search-btn-focus: 2px outset rgba(255, 255, 255, 0.87);
   --border-switch: 1px solid rgba(255, 255, 255, 0.6);
   --border-switch-focus: 2px solid rgb(255, 255, 255);
-  --border-nav-tab: 2px solid rgba(60, 60, 255, 0.87);
-  --border-nav-tab-inactive: 2px solid rgba(60, 60, 255, 0.38);
+  --border-nav-link: 2px solid rgba(60, 60, 255, 0.87);
+  --border-nav-link-inactive: 2px solid rgba(60, 60, 255, 0.38);
   --outline-primary-focus: 1px solid rgba(255, 255, 255, 0.87);
   /* images/icons */
   /* misc */
@@ -101,8 +101,8 @@
   --border-search-btn-focus: 2px outset rgba(0, 0, 0, 0.87);
   --border-switch: 1px solid rgba(0, 0, 0, 0.6);
   --border-switch-focus: 2px solid rgb(0, 0, 0);
-  --border-nav-tab: 2px solid rgba(185, 121, 0, 0.87);
-  --border-nav-tab-inactive: 2px solid rgba(185, 121, 0, 0.38);
+  --border-nav-link: 2px solid rgba(185, 121, 0, 0.87);
+  --border-nav-link-inactive: 2px solid rgba(185, 121, 0, 0.38);
   --outline-primary-focus: 1px solid rgba(0, 0, 0, 0.87);
   /* images/icons */
   /* misc */
@@ -309,12 +309,11 @@ label[for='location-search'] {
   position: sticky;
   top: 0;
   width: 100%;
-  max-width: 400px;
   min-height: 3rem;
   background-color: var(--bg-base);
 }
 
-.forecast-tabs {
+.forecast-links {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -323,33 +322,32 @@ label[for='location-search'] {
   list-style-type: none;
 }
 
-.forecast-tabs li {
-  display: inline-block;
-  width: 33.33%;
-  height: 100%;
-}
-
-.tab {
+.forecast-links li {
   display: inline-block;
   width: 100%;
   height: 100%;
-  border-bottom: var(--border-nav-tab-inactive);
+}
+
+.link {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 0;
+  border-bottom: var(--border-nav-link-inactive);
   border-top: 2px solid transparent;
   color: var(--text-primary);
   font-size: 1rem;
   text-align: center;
-  line-height: 3rem;
 }
 
-.tab:hover,
-.tab:focus {
+.link:hover,
+.link:focus {
   outline: none;
-  border-bottom: var(--border-nav-tab);
-  border-top: var(--border-nav-tab);
+  border-bottom: var(--border-nav-link);
+  border-top: var(--border-nav-link);
 }
 
-.active-tab {
-  border-bottom: var(--border-nav-tab);
+.active-link {
+  border-bottom: var(--border-nav-link);
   font-weight: bold;
 }
 
@@ -424,12 +422,19 @@ footer {
   form {
     margin-left: 100px;
   }
+
+  .forecast-links {
+    width: 50%;
+  }
 }
 
 @media only screen and (min-width: 992px) {
 }
 
 @media only screen and (min-width: 1200px) {
+  .forecast-links {
+    width: 33.33%;
+  }
 }
 
 /* ========== 7.2 reduced motion ========== */

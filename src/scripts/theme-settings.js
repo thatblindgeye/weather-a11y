@@ -3,14 +3,14 @@ const darkIcon = document.getElementById('dark-theme-icon');
 const lightIcon = document.getElementById('light-theme-icon');
 const githubLogo = document.querySelector('.github-icon');
 
-const _saveToLocal = () => {
+const saveTheme = () => {
   localStorage.setItem(
     'theme',
     document.documentElement.getAttribute('data-theme')
   );
 };
 
-const _setDarkTheme = () => {
+const setDarkTheme = () => {
   themeSwitch.setAttribute('aria-checked', 'false');
   document.documentElement.setAttribute('data-theme', 'dark');
   themeSwitch.style.justifyContent = 'flex-start';
@@ -19,7 +19,7 @@ const _setDarkTheme = () => {
   githubLogo.src = 'assets/images/logos/GitHub-White-Mark-32px.png';
 };
 
-const _setLightTheme = () => {
+const setLightTheme = () => {
   themeSwitch.setAttribute('aria-checked', 'true');
   document.documentElement.setAttribute('data-theme', 'light');
   themeSwitch.style.justifyContent = 'flex-end';
@@ -30,19 +30,19 @@ const _setLightTheme = () => {
 
 const themeOnLoad = () => {
   if (localStorage.getItem('theme') === 'light') {
-    _setLightTheme();
+    setLightTheme();
   } else {
-    _setDarkTheme();
+    setDarkTheme();
   }
 };
 
 const toggleTheme = () => {
   if (document.documentElement.getAttribute('data-theme') === 'light') {
-    _setDarkTheme();
+    setDarkTheme();
   } else {
-    _setLightTheme();
+    setLightTheme();
   }
-  _saveToLocal();
+  saveTheme();
 };
 
 export { themeOnLoad, toggleTheme };
