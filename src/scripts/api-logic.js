@@ -1,4 +1,4 @@
-const API = '13aa14e68e00ac80cb7c634dc1194d83';
+const APIKey = '13aa14e68e00ac80cb7c634dc1194d83';
 
 async function convertInputToCoordinates() {
   const searchInput = document.getElementById('location-search');
@@ -7,7 +7,7 @@ async function convertInputToCoordinates() {
   }
 
   const inputResponse = await fetch(
-    `http://api.openweathermap.org/geo/1.0/direct?q=${searchInput.value}&limit=10&appid=${API}`,
+    `http://api.openweathermap.org/geo/1.0/direct?q=${searchInput.value}&limit=10&appid=${APIKey}`,
     { mode: 'cors' }
   );
 
@@ -53,13 +53,16 @@ async function getWeatherData(e) {
       latitude = coordinateResponse.coords.latitude;
       longitude = coordinateResponse.coords.longitude;
     }
-
+    console.log(coordinateResponse);
     const weatherResponse = await fetch(
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely&units=${units}&appid=${API}`
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely&units=${units}&appid=${APIKey}`
     );
 
     const weatherData = await weatherResponse.json();
     console.log(weatherData);
+    coordinateResponse = null;
+    latitude = null;
+    longitude = null;
   } catch (error) {
     console.log(error.message);
   }

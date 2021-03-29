@@ -8,10 +8,9 @@ Weather a11y is a weather app built with accessibility in mind, meant to be your
 
 (current plans; may adjust as work on the project progresses)
 
-- Accessibility built in from the start.
+- Accessibility-friendly.
 - Change between metric (Celsius and km/h) and imperial (Fahrenheit and mph) units.
 - Check the current weather, a 24 hour forecast, or a 7 day forecast.
-- Save a location and temperature setting as 'preferred'. When you change the temperature setting, Weather a11y will autoamtically save it. When you mark a location as 'preferred', weather information for that location will be loaded immediately the next time you use the app!
 
 ## How-To
 

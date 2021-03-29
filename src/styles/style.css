@@ -39,6 +39,7 @@
   --bg-base: rgb(18, 18, 30);
   --bg-accessibility: rgb(30, 30, 120);
   --bg-header: rgb(18, 18, 80);
+  --bg-units-btn: rgb(70, 70, 70);
   --bg-search-input: rgb(30, 30, 30);
   --bg-search-btn: rgb(44, 44, 44);
   /* elevation refs */
@@ -60,10 +61,10 @@
   --text-primary: rgb(255, 255, 255, 0.87);
   /* borders/outlines */
   --border-primary: 1px solid rgba(255, 255, 255, 0.6);
-  --border-primary-focus: 2px solid rgb(255, 255, 255);
+  --border-primary-focus: 1px solid rgb(255, 255, 255);
   --border-input: 1px inset rgba(255, 255, 255, 0.6);
   --border-input-focus: 2px inset rgba(255, 255, 255, 0.87);
-  --border-search-btn: 1px outset rgba(255, 255, 255, 0.6);
+  --border-search-btn: 2px outset rgba(255, 255, 255, 0.6);
   --border-search-btn-focus: 2px outset rgba(255, 255, 255, 0.87);
   --border-switch: 1px solid rgba(255, 255, 255, 0.6);
   --border-switch-focus: 2px solid rgb(255, 255, 255);
@@ -88,6 +89,7 @@
   --bg-base: rgb(255, 241, 210);
   --bg-accessibility: rgb(255, 185, 65);
   --bg-header: rgb(255, 166, 0);
+  --bg-units-btn: rgb(200, 200, 200);
   --bg-search-input: rgb(240, 240, 240);
   --bg-search-btn: rgb(220, 220, 220);
   /* text */
@@ -97,7 +99,7 @@
   --border-primary-focus: 1px solid rgb(0, 0, 0);
   --border-input: 1px inset rgba(0, 0, 0, 0.6);
   --border-input-focus: 2px inset rgba(0, 0, 0, 0.87);
-  --border-search-btn: 1px outset rgba(0, 0, 0, 0.6);
+  --border-search-btn: 2px outset rgba(0, 0, 0, 0.6);
   --border-search-btn-focus: 2px outset rgba(0, 0, 0, 0.87);
   --border-switch: 1px solid rgba(0, 0, 0, 0.6);
   --border-switch-focus: 2px solid rgb(0, 0, 0);
@@ -208,12 +210,16 @@ header {
 }
 
 #app-logo {
-  margin: 0;
-  padding: 5px 10px;
+  margin-left: 10px;
+  padding: 0 10px 5px;
   color: var(--text-primary);
   font-size: 2.5rem;
   word-spacing: 0.5rem;
   text-align: center;
+}
+
+#app-logo:focus {
+  outline: var(--outline-primary-focus);
 }
 
 #app-logo > div {
@@ -221,7 +227,35 @@ header {
   font-size: 0.9rem;
   word-spacing: initial;
   font-weight: bold;
-  text-align: right;
+  text-align: left;
+}
+
+.unit-btn-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+  color: var(--text-primary);
+}
+
+#unit-btn {
+  display: block;
+  width: 6rem;
+  padding: 5px 0;
+  background-color: var(--bg-units-btn);
+  border: var(--border-primary);
+  border-radius: 10px;
+  color: var(--text-primary);
+  opacity: 0.87;
+  font-size: 1rem;
+}
+
+#unit-btn:focus {
+  box-shadow: 0 0 0 2px var(--text-primary);
+}
+
+label[for='unit-btn'] {
+  text-align: center;
 }
 
 form {
@@ -248,11 +282,13 @@ form {
 }
 
 .use-location-btn:focus {
-  outline: var(--outline-primary-focus);
+  border: var(--outline-primary-focus);
+  border-radius: 50%;
 }
 
 .use-location-icon {
   color: var(--text-primary);
+  transform: translateY(-1px);
 }
 
 .search-container {
@@ -416,11 +452,16 @@ footer {
   }
 
   #app-logo {
+    margin-right: 50px;
     text-align: left;
   }
 
+  .unit-btn-container {
+    margin-top: 22px;
+  }
+
   form {
-    margin-left: 100px;
+    margin-left: 50px;
   }
 
   .forecast-links {
