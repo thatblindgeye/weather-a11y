@@ -132,7 +132,8 @@ a {
   text-decoration: none;
 }
 
-button:hover {
+button:hover,
+*[role='button'] {
   cursor: pointer;
 }
 

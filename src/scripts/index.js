@@ -32,8 +32,10 @@ const forecastTabs = document.querySelectorAll('.tab');
 function setActiveTab(target) {
   Array.from(forecastTabs).forEach((tab) => {
     tab.classList.remove('active-tab');
+    tab.setAttribute('aria-expanded', false);
   });
   target.classList.add('active-tab');
+  target.setAttribute('aria-expanded', true);
 }
 
 Array.from(forecastTabs).forEach((link) => {
