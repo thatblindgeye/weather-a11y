@@ -388,6 +388,23 @@ label[for='location-search'] {
   font-weight: bold;
 }
 
+.forecast-container {
+  padding: 0 20px;
+}
+
+#forecast-header {
+  text-align: center;
+  font-weight: normal;
+}
+
+.forecast {
+  display: none;
+}
+
+.active-forecast {
+  display: block;
+}
+
 /* ========== 5.2 main content ========== */
 #main {
   height: 150vh;
@@ -467,6 +484,10 @@ footer {
 
   .forecast-tabs {
     width: 50%;
+  }
+
+  #forecast-header {
+    text-align: left;
   }
 }
 

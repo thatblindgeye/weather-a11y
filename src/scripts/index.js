@@ -2,6 +2,7 @@ import '../styles/sanitize.css';
 import '../styles/style.css';
 import { themeOnLoad, toggleTheme } from './theme-settings';
 import { saveUnitType, changeUnitType, loadUnitType } from './unit-utilities';
+import { setActiveForecast } from './render-DOM';
 import getWeatherData from './api-logic';
 
 const unitButton = document.getElementById('unit-btn');
@@ -28,29 +29,27 @@ themeSwitch.addEventListener('keydown', (e) => {
   }
 });
 
-const forecastTabs = document.querySelectorAll('.tab');
-function setActiveTab(target) {
-  Array.from(forecastTabs).forEach((tab) => {
-    tab.classList.remove('active-tab');
-    tab.setAttribute('aria-expanded', false);
+Array.from(document.querySelectorAll('.tab')).forEach((tab) => {
+  tab.addEventListener('click', (e) => {
+    setActiveForecast(e.target);
   });
-  target.classList.add('active-tab');
-  target.setAttribute('aria-expanded', true);
-}
-
-Array.from(forecastTabs).forEach((link) => {
-  link.addEventListener('click', (e) => {
-    setActiveTab(e.target);
+});
+Array.from(document.querySelectorAll('.tab')).forEach((tab) => {
+  tab.addEventListener('keydown', (e) => {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      setActiveForecast(e.target);
+    }
   });
 });
 
 window.addEventListener('submit', (e) => {
   e.preventDefault();
   getWeatherData(e);
-  setActiveTab(document.querySelector('#current-tab'));
+  setActiveForecast(document.querySelector('#current-tab'));
 });
 
 document.querySelector('.use-location-btn').addEventListener('click', (e) => {
   getWeatherData(e);
-  setActiveTab(document.querySelector('#current-tab'));
+  setActiveForecast(document.querySelector('#current-tab'));
 });

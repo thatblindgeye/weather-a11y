@@ -1,3 +1,4 @@
+import { setActiveForecast, renderForecasts } from './render-DOM';
 import {
   saveLocation,
   loadLocation,
@@ -17,6 +18,7 @@ async function convertInputToCoordinates() {
     { mode: 'cors' }
   );
   const coordinateData = await searchResponse.json();
+  searchInput.value = '';
 
   if (coordinateData.length === 0 || coordinateData.cod === '404') {
     throw new Error(`Location "${searchInput.value}" not found.`);
@@ -71,10 +73,9 @@ async function getWeatherData(e) {
     const weatherResponse = await fetch(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely&units=${units}&appid=${APIKey}`
     );
-
     const weatherData = await weatherResponse.json();
     console.log(weatherData);
-
+    renderForecasts(weatherData);
     coordinateResponse = null;
     locationName = null;
     latitude = null;

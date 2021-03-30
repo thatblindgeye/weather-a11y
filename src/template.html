@@ -42,7 +42,7 @@
           role="switch"
           aria-checked="false"
           tabindex="0"
-          aria-label="Toggle Light theme"
+          aria-label="Enable light theme"
         >
           <svg
             id="dark-theme-icon"
@@ -140,13 +140,16 @@
     <main id="main">
       <nav id="upper-nav">
         <ul class="forecast-tabs">
-          <li><div role="button" id="current-tab" class="active-tab tab" aria-expanded="true" tabindex="0">Current</div></li>
-          <li><div role="button" id="hourly-tab" class="tab" aria-expanded="false" tabindex="0">Hourly</div></li>
-          <li><div role="button" id=="7-day-tab" class="tab" aria-expanded="false" tabindex="0">7 Day</div></li>
+          <li><div role="button" id="current-tab" class="active-tab tab" aria-expanded="true" aria-controls="current-forecast" tabindex="0">Current</div></li>
+          <li><div role="button" id="hourly-tab" class="tab" aria-expanded="false" aria-controls="hourly-forecast" tabindex="0">Hourly</div></li>
+          <li><div role="button" id=="7-day-tab" class="tab" aria-expanded="false" aria-controls="7-day-forecast" tabindex="0">7 Day</div></li>
         </ul>
       </nav>
-
-      <article class="forecast"></article>
+      <div class="forecast-container" aria-live="polite">
+        <h1 id="forecast-header">No location set</h1>
+        <article id="hourly-forecast" class="forecast">Display hourly weather info here.</article>
+        <article id="7-day-forecast" class="forecast">Display daily weather info here.</article>
+      </div>
     </main>
 
     <footer>
