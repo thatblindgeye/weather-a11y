@@ -9,13 +9,14 @@ unitButton.addEventListener('click', () => {
   changeUnitType();
 });
 
-window.addEventListener('load', () => {
+window.addEventListener('load', (e) => {
   themeOnLoad();
   if (!localStorage.getItem('units')) {
     saveUnitType('imperial');
   } else {
     loadUnitType();
   }
+  getWeatherData(e);
 });
 
 const themeSwitch = document.querySelector('#theme-switch');
@@ -27,27 +28,27 @@ themeSwitch.addEventListener('keydown', (e) => {
   }
 });
 
-const forecastLinks = document.querySelectorAll('.link');
-function setActiveLink(target) {
-  Array.from(forecastLinks).forEach((link) => {
-    link.classList.remove('active-link');
+const forecastTabs = document.querySelectorAll('.tab');
+function setActiveTab(target) {
+  Array.from(forecastTabs).forEach((tab) => {
+    tab.classList.remove('active-tab');
   });
-  target.classList.add('active-link');
+  target.classList.add('active-tab');
 }
 
-Array.from(forecastLinks).forEach((link) => {
+Array.from(forecastTabs).forEach((link) => {
   link.addEventListener('click', (e) => {
-    setActiveLink(e.target);
+    setActiveTab(e.target);
   });
 });
 
 window.addEventListener('submit', (e) => {
   e.preventDefault();
   getWeatherData(e);
-  setActiveLink(document.querySelector('#current-link'));
+  setActiveTab(document.querySelector('#current-tab'));
 });
 
 document.querySelector('.use-location-btn').addEventListener('click', (e) => {
   getWeatherData(e);
-  setActiveLink(document.querySelector('#current-link'));
+  setActiveTab(document.querySelector('#current-tab'));
 });

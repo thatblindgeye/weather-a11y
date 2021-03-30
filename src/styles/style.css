@@ -68,8 +68,8 @@
   --border-search-btn-focus: 2px outset rgba(255, 255, 255, 0.87);
   --border-switch: 1px solid rgba(255, 255, 255, 0.6);
   --border-switch-focus: 2px solid rgb(255, 255, 255);
-  --border-nav-link: 2px solid rgba(60, 60, 255, 0.87);
-  --border-nav-link-inactive: 2px solid rgba(60, 60, 255, 0.38);
+  --border-nav-tab: 2px solid rgba(60, 60, 255, 0.87);
+  --border-nav-tab-inactive: 2px solid rgba(60, 60, 255, 0.38);
   --outline-primary-focus: 1px solid rgba(255, 255, 255, 0.87);
   /* images/icons */
   /* misc */
@@ -103,8 +103,8 @@
   --border-search-btn-focus: 2px outset rgba(0, 0, 0, 0.87);
   --border-switch: 1px solid rgba(0, 0, 0, 0.6);
   --border-switch-focus: 2px solid rgb(0, 0, 0);
-  --border-nav-link: 2px solid rgba(185, 121, 0, 0.87);
-  --border-nav-link-inactive: 2px solid rgba(185, 121, 0, 0.38);
+  --border-nav-tab: 2px solid rgba(185, 121, 0, 0.87);
+  --border-nav-tab-inactive: 2px solid rgba(185, 121, 0, 0.38);
   --outline-primary-focus: 1px solid rgba(0, 0, 0, 0.87);
   /* images/icons */
   /* misc */
@@ -349,7 +349,7 @@ label[for='location-search'] {
   background-color: var(--bg-base);
 }
 
-.forecast-links {
+.forecast-tabs {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -358,32 +358,32 @@ label[for='location-search'] {
   list-style-type: none;
 }
 
-.forecast-links li {
+.forecast-tabs li {
   display: inline-block;
   width: 100%;
   height: 100%;
 }
 
-.link {
+.tab {
   display: inline-block;
   width: 100%;
   padding: 10px 0;
-  border-bottom: var(--border-nav-link-inactive);
+  border-bottom: var(--border-nav-tab-inactive);
   border-top: 2px solid transparent;
   color: var(--text-primary);
   font-size: 1rem;
   text-align: center;
 }
 
-.link:hover,
-.link:focus {
+.tab:hover,
+.tab:focus {
   outline: none;
-  border-bottom: var(--border-nav-link);
-  border-top: var(--border-nav-link);
+  border-bottom: var(--border-nav-tab);
+  border-top: var(--border-nav-tab);
 }
 
-.active-link {
-  border-bottom: var(--border-nav-link);
+.active-tab {
+  border-bottom: var(--border-nav-tab);
   font-weight: bold;
 }
 
@@ -464,7 +464,7 @@ footer {
     margin-left: 50px;
   }
 
-  .forecast-links {
+  .forecast-tabs {
     width: 50%;
   }
 }
@@ -473,7 +473,7 @@ footer {
 }
 
 @media only screen and (min-width: 1200px) {
-  .forecast-links {
+  .forecast-tabs {
     width: 33.33%;
   }
 }
