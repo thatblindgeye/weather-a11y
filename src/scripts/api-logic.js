@@ -10,16 +10,17 @@ async function convertInputToCoordinates() {
     `http://api.openweathermap.org/geo/1.0/direct?q=${searchInput.value}&limit=10&appid=${APIKey}`,
     { mode: 'cors' }
   );
+  const coordinateData = await inputResponse.json();
 
-  const coordData = await inputResponse.json();
-  if (coordData.length === 0 || coordData.cod === '404') {
+  if (coordinateData.length === 0 || coordinateData.cod === '404') {
     throw new Error(`Location "${searchInput.value}" not found.`);
-  } else if (coordData.length > 1) {
-    console.log(coordData);
+  } else if (coordinateData.length > 1) {
+    console.log(coordinateData);
     const selectedLocation = prompt('choose');
-    return coordData[selectedLocation];
+    return coordinateData[selectedLocation];
   }
-  return coordData[0];
+
+  return coordinateData[0];
 }
 
 const geolocationOptions = {

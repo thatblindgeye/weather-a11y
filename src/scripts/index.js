@@ -1,7 +1,7 @@
 import '../styles/sanitize.css';
 import '../styles/style.css';
 import { themeOnLoad, toggleTheme } from './theme-settings';
-import { saveUnitType, changeUnitType, loadUnitType } from './preferences';
+import { saveUnitType, changeUnitType, loadUnitType } from './unit-utilities';
 import getWeatherData from './api-logic';
 
 const unitButton = document.getElementById('unit-btn');
