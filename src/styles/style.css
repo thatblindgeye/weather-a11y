@@ -340,6 +340,10 @@ label[for='location-search'] {
   font-size: 0.8rem;
 }
 
+.display-error {
+  display: block;
+}
+
 /* ========== 5. main ========== */
 /* ========== 5.1 main nav ========== */
 #upper-nav {

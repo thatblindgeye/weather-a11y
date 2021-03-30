@@ -1,9 +1,5 @@
-import { setActiveForecast, renderForecasts } from './render-DOM';
-import {
-  saveLocation,
-  loadLocation,
-  setLocationName,
-} from './location-utilities';
+import { renderError, clearError } from './render-DOM';
+import { saveLocation, loadLocation, createName } from './location-utilities';
 
 const APIKey = '13aa14e68e00ac80cb7c634dc1194d83';
 
@@ -18,7 +14,6 @@ async function convertInputToCoordinates() {
     { mode: 'cors' }
   );
   const coordinateData = await searchResponse.json();
-  searchInput.value = '';
 
   if (coordinateData.length === 0 || coordinateData.cod === '404') {
     throw new Error(`Location "${searchInput.value}" not found.`);
@@ -28,6 +23,7 @@ async function convertInputToCoordinates() {
     return coordinateData[selectedLocation];
   }
 
+  searchInput.value = '';
   return coordinateData[0];
 }
 
@@ -58,7 +54,7 @@ async function getWeatherData(e) {
       [locationName, latitude, longitude] = loadLocation();
     } else if (e.type === 'submit') {
       coordinateResponse = await convertInputToCoordinates();
-      locationName = setLocationName(coordinateResponse);
+      locationName = createName(coordinateResponse);
       latitude = coordinateResponse.lat;
       longitude = coordinateResponse.lon;
     } else {
@@ -68,20 +64,21 @@ async function getWeatherData(e) {
       longitude = coordinateResponse.coords.longitude;
     }
     saveLocation(locationName, latitude, longitude);
-    console.log(coordinateResponse);
-    console.log(locationName);
+
     const weatherResponse = await fetch(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely&units=${units}&appid=${APIKey}`
     );
     const weatherData = await weatherResponse.json();
     console.log(weatherData);
-    renderForecasts(weatherData);
+    clearError();
+
     coordinateResponse = null;
     locationName = null;
     latitude = null;
     longitude = null;
   } catch (error) {
-    console.log(error.message);
+    renderError(error.message);
+    console.log(error);
   }
 }
 

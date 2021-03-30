@@ -31,12 +31,12 @@ function loadUnitType() {
 }
 
 function changeUnitType() {
-  if (unitButton.textContent === 'Imperial') {
-    unitButton.textContent = 'Metric';
-    saveUnitType('metric');
-  } else {
+  if (localStorage.getItem('units') === 'metric') {
     unitButton.textContent = 'Imperial';
     saveUnitType('imperial');
+  } else {
+    unitButton.textContent = 'Metric';
+    saveUnitType('metric');
   }
 }
 

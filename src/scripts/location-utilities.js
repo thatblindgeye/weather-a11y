@@ -18,10 +18,10 @@ function loadLocation() {
   ];
 }
 
-function setLocationName(data) {
-  const locationArray = [data.name, data.state, data.country];
+function createName(source) {
+  const locationArray = [source.name, source.state, source.country];
   const filteredArray = locationArray.filter((item) => item !== undefined);
   return filteredArray.join(', ');
 }
 
-export { saveLocation, loadLocation, setLocationName };
+export { saveLocation, loadLocation, createName };

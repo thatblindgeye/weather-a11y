@@ -1,3 +1,15 @@
+const errorContainer = document.querySelector('.search-error');
+
+function renderError(message) {
+  errorContainer.textContent = message;
+  errorContainer.classList.add('display-error');
+}
+
+function clearError() {
+  errorContainer.textContent = '';
+  errorContainer.classList.remove('display-error');
+}
+
 function setActiveForecast(target) {
   const forecastTabs = document.querySelectorAll('.tab');
   Array.from(forecastTabs).forEach((tab) => {
@@ -48,4 +60,4 @@ const renderForecasts = (data) => {
   document.querySelector('.forecast-container').append(renderCurrent());
 };
 
-export { setActiveForecast, renderForecasts };
+export { setActiveForecast, renderError, clearError };

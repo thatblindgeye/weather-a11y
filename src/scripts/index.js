@@ -3,12 +3,7 @@ import '../styles/style.css';
 import { themeOnLoad, toggleTheme } from './theme-settings';
 import { saveUnitType, changeUnitType, loadUnitType } from './unit-utilities';
 import { setActiveForecast } from './render-DOM';
-import getWeatherData from './api-logic';
-
-const unitButton = document.getElementById('unit-btn');
-unitButton.addEventListener('click', () => {
-  changeUnitType();
-});
+import getWeatherData from './fetch-logic';
 
 window.addEventListener('load', (e) => {
   themeOnLoad();
@@ -18,6 +13,11 @@ window.addEventListener('load', (e) => {
     loadUnitType();
   }
   getWeatherData(e);
+});
+
+const unitButton = document.getElementById('unit-btn');
+unitButton.addEventListener('click', () => {
+  changeUnitType();
 });
 
 const themeSwitch = document.querySelector('#theme-switch');
@@ -43,13 +43,15 @@ Array.from(document.querySelectorAll('.tab')).forEach((tab) => {
   });
 });
 
-window.addEventListener('submit', (e) => {
+const form = document.querySelector('form');
+const defaultTab = document.querySelector('#current-tab');
+form.addEventListener('submit', (e) => {
   e.preventDefault();
   getWeatherData(e);
-  setActiveForecast(document.querySelector('#current-tab'));
+  setActiveForecast(defaultTab);
 });
 
 document.querySelector('.use-location-btn').addEventListener('click', (e) => {
   getWeatherData(e);
-  setActiveForecast(document.querySelector('#current-tab'));
+  setActiveForecast(defaultTab);
 });
