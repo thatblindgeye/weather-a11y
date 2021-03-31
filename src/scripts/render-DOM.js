@@ -13,29 +13,10 @@ function clearError() {
   }
 }
 
-const forecastDisplays = document.querySelectorAll('.forecast');
-function setActiveForecast(target) {
-  Array.from(document.querySelectorAll('.tab')).forEach((tab) => {
-    tab.classList.remove('active-tab');
-    tab.setAttribute('aria-expanded', false);
-  });
-
-  target.classList.add('active-tab');
-  target.setAttribute('aria-expanded', true);
-
-  Array.from(forecastDisplays).forEach((display) => {
-    display.classList.remove('active-forecast');
-  });
-
-  const activeForecastId = target.getAttribute('aria-controls');
-  const activeForecastDisplay = document.getElementById(`${activeForecastId}`);
-  activeForecastDisplay.classList.add('active-forecast');
-}
-
 function renderMainDisplay(location, weather) {
   document.getElementById('forecast-header').textContent = location;
 
-  Array.from(forecastDisplays).forEach((display) => {
+  Array.from(document.querySelectorAll('.forecast')).forEach((display) => {
     while (display.lastChild) {
       display.removeChild(display.lastChild);
     }
@@ -73,7 +54,7 @@ function renderMainDisplay(location, weather) {
       ${new Date(current.sunset * 1000)}
       ${current.wind_speed.toFixed()}
       ${current.humidity}
-      ${current.uvi}
+      ${current.uvi.toFixed()}
     </div>
     `;
 
@@ -81,7 +62,57 @@ function renderMainDisplay(location, weather) {
     document.getElementById('current-forecast').appendChild(fragment);
   };
 
+  const renderHourlyForecast = () => {
+    for (let i = 0; i < 24; i++) {
+      const forecast = `
+      <div>
+      ${new Date(hourly[i].dt * 1000)} <br>
+      ${hourly[i].temp.toFixed()} <br>
+      ${hourly[i].feels_like.toFixed()} <br>
+      <img
+      class='current-icon'
+      src='${iconURL}${hourly[i].weather[0].icon}.png' 
+      alt='' 
+      aria-hidden='true'
+      />
+      ${hourly[i].weather[0].description} <br>
+      ${hourly[i].pop.toFixed()} <br>
+      </div>
+      `;
+
+      const fragment = range.createContextualFragment(forecast);
+      document.getElementById('hourly-forecast').appendChild(fragment);
+    }
+  };
+
+  const renderDailyForecast = () => {
+    for (let i = 0; i < 8; i++) {
+      const forecast = `
+      <div>
+      ${new Date(daily[i].dt * 1000)} <br>
+      ${daily[i].temp.max.toFixed()} <br>
+      ${daily[i].temp.min.toFixed()} <br>
+      <img
+      class='current-icon'
+      src='${iconURL}${daily[i].weather[0].icon}.png' 
+      alt='' 
+      aria-hidden='true'
+      />
+      ${daily[i].weather[0].description} <br>
+      ${daily[i].pop.toFixed()}% <br>
+      ${daily[i].sunrise} <br>
+      ${daily[i].sunset} <br>
+      </div>
+      `;
+
+      const fragment = range.createContextualFragment(forecast);
+      document.getElementById('daily-forecast').appendChild(fragment);
+    }
+  };
+
   renderCurrentForecast();
+  renderHourlyForecast();
+  renderDailyForecast();
 }
 
-export { setActiveForecast, renderError, clearError, renderMainDisplay };
+export { renderError, clearError, renderMainDisplay };
