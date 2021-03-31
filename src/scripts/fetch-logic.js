@@ -1,4 +1,4 @@
-import { renderError, renderMainDisplay, renderLoading } from './render-DOM';
+import { renderError, clearError, renderMainDisplay } from './render-DOM';
 import {
   saveLocation,
   loadLocation,
@@ -36,17 +36,19 @@ const geolocationOptions = {
   enableHighAccuracy: true,
 };
 
-const getUserGeolocation = () => {
-  return new Promise(function (resolve, reject) {
+function getUserGeolocation() {
+  return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
       resolve,
       reject,
       geolocationOptions
     );
   });
-};
+}
 
 async function getWeatherData(e) {
+  clearError();
+
   const units = localStorage.getItem('units');
   let coordinateResponse;
   let locationName;
@@ -68,7 +70,7 @@ async function getWeatherData(e) {
       longitude = coordinateResponse.coords.longitude;
     }
     saveLocation(locationName, latitude, longitude);
-    renderLoading();
+    document.getElementById('forecast-header').textContent = 'Loading...';
 
     const weatherResponse = await fetch(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely&units=${units}&appid=${API_KEY}`

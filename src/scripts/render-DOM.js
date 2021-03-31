@@ -13,10 +13,6 @@ function clearError() {
   }
 }
 
-function renderLoading() {
-  document.getElementById('forecast-header').textContent = 'Loading...';
-}
-
 const forecastDisplays = document.querySelectorAll('.forecast');
 function setActiveForecast(target) {
   Array.from(document.querySelectorAll('.tab')).forEach((tab) => {
@@ -27,8 +23,8 @@ function setActiveForecast(target) {
   target.classList.add('active-tab');
   target.setAttribute('aria-expanded', true);
 
-  Array.from(forecastDisplays).forEach((forecast) => {
-    forecast.classList.remove('active-forecast');
+  Array.from(forecastDisplays).forEach((display) => {
+    display.classList.remove('active-forecast');
   });
 
   const activeForecastId = target.getAttribute('aria-controls');
@@ -36,24 +32,20 @@ function setActiveForecast(target) {
   activeForecastDisplay.classList.add('active-forecast');
 }
 
-const renderMainDisplay = (location, weather) => {
-  function updateLocationHeader() {
-    document.getElementById('forecast-header').textContent = location;
-  }
+function renderMainDisplay(location, weather) {
+  document.getElementById('forecast-header').textContent = location;
 
-  function clearForecastDisplays() {
-    Array.from(forecastDisplays).forEach((display) => {
-      while (display.lastChild) {
-        display.removeChild(display.lastChild);
-      }
-    });
-  }
+  Array.from(forecastDisplays).forEach((display) => {
+    while (display.lastChild) {
+      display.removeChild(display.lastChild);
+    }
+  });
 
   const { current, daily, hourly, timezone_offset: offset } = weather;
   const iconURL = 'https://openweathermap.org/img/wn/';
   const range = document.createRange();
 
-  function renderCurrentForecast() {
+  const renderCurrentForecast = () => {
     const forecast = `
     <div class='current-main'>
       <div class='current-temps'>
@@ -77,22 +69,19 @@ const renderMainDisplay = (location, weather) => {
       </div>
     </div>
     <div class='current-additional'>
-    ${new Date(current.sunrise * 1000)}<br>
-    ${new Date(current.sunset * 1000)}
-    ${current.wind_speed.toFixed()}
-    ${current.humidity}
-    ${current.uvi}
+      ${new Date(current.sunrise * 1000)}<br>
+      ${new Date(current.sunset * 1000)}
+      ${current.wind_speed.toFixed()}
+      ${current.humidity}
+      ${current.uvi}
     </div>
     `;
 
     const fragment = range.createContextualFragment(forecast);
     document.getElementById('current-forecast').appendChild(fragment);
-  }
+  };
 
-  clearError();
-  updateLocationHeader();
-  clearForecastDisplays();
   renderCurrentForecast();
-};
+}
 
-export { setActiveForecast, renderError, renderMainDisplay, renderLoading };
+export { setActiveForecast, renderError, clearError, renderMainDisplay };

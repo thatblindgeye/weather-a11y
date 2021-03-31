@@ -1,35 +1,26 @@
-const convertToMetric = () => {
+function convertToMetric() {
   function convertToCelsius() {}
 
   function convertToKMH() {}
 
   convertToCelsius();
   convertToKMH();
-};
+}
 
-const convertToImperial = () => {
+function convertToImperial() {
   function convertToFahrenheit() {}
 
   function convertToMPH() {}
 
   convertToFahrenheit();
   convertToMPH();
-};
-
-const unitButton = document.getElementById('unit-btn');
+}
 
 function saveUnitType(unit) {
   localStorage.setItem('units', unit);
 }
 
-function loadUnitType() {
-  if (localStorage.getItem('units') === 'metric') {
-    unitButton.textContent = 'Metric';
-  } else {
-    unitButton.textContent = 'Imperial';
-  }
-}
-
+const unitButton = document.getElementById('unit-btn');
 function changeUnitType() {
   if (localStorage.getItem('units') === 'metric') {
     unitButton.textContent = 'Imperial';
@@ -40,12 +31,20 @@ function changeUnitType() {
   }
 }
 
-const checkForSavedUnits = () => {
+function loadUnitType() {
+  if (localStorage.getItem('units') === 'metric') {
+    unitButton.textContent = 'Metric';
+  } else {
+    unitButton.textContent = 'Imperial';
+  }
+}
+
+function checkForSavedUnits() {
   if (!localStorage.getItem('units')) {
     saveUnitType('imperial');
   } else {
     loadUnitType();
   }
-};
+}
 
 export { checkForSavedUnits, changeUnitType };
