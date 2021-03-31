@@ -1,7 +1,11 @@
-import { renderError, clearError } from './render-DOM';
-import { saveLocation, loadLocation, createName } from './location-utilities';
+import { renderError, renderMainDisplay, renderLoading } from './render-DOM';
+import {
+  saveLocation,
+  loadLocation,
+  createLocationString,
+} from './location-utilities';
 
-const APIKey = '13aa14e68e00ac80cb7c634dc1194d83';
+const API_KEY = '13aa14e68e00ac80cb7c634dc1194d83';
 
 async function convertInputToCoordinates() {
   const searchInput = document.getElementById('location-search');
@@ -10,11 +14,11 @@ async function convertInputToCoordinates() {
   }
 
   const searchResponse = await fetch(
-    `http://api.openweathermap.org/geo/1.0/direct?q=${searchInput.value}&limit=10&appid=${APIKey}`,
+    `http://api.openweathermap.org/geo/1.0/direct?q=${searchInput.value}&limit=10&appid=${API_KEY}`,
     { mode: 'cors' }
   );
-  const coordinateData = await searchResponse.json();
 
+  const coordinateData = await searchResponse.json();
   if (coordinateData.length === 0 || coordinateData.cod === '404') {
     throw new Error(`Location "${searchInput.value}" not found.`);
   } else if (coordinateData.length > 1) {
@@ -50,11 +54,11 @@ async function getWeatherData(e) {
   let longitude;
 
   try {
-    if (e.type === 'load' && localStorage.getItem('recent location')) {
+    if (e.type === 'load') {
       [locationName, latitude, longitude] = loadLocation();
     } else if (e.type === 'submit') {
       coordinateResponse = await convertInputToCoordinates();
-      locationName = createName(coordinateResponse);
+      locationName = createLocationString(coordinateResponse);
       latitude = coordinateResponse.lat;
       longitude = coordinateResponse.lon;
     } else {
@@ -64,21 +68,17 @@ async function getWeatherData(e) {
       longitude = coordinateResponse.coords.longitude;
     }
     saveLocation(locationName, latitude, longitude);
+    renderLoading();
 
     const weatherResponse = await fetch(
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely&units=${units}&appid=${APIKey}`
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely&units=${units}&appid=${API_KEY}`
     );
+
     const weatherData = await weatherResponse.json();
     console.log(weatherData);
-    clearError();
-
-    coordinateResponse = null;
-    locationName = null;
-    latitude = null;
-    longitude = null;
+    renderMainDisplay(locationName, weatherData);
   } catch (error) {
     renderError(error.message);
-    console.log(error);
   }
 }
 

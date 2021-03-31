@@ -1,25 +1,32 @@
 const errorContainer = document.querySelector('.search-error');
-
 function renderError(message) {
   errorContainer.textContent = message;
-  errorContainer.classList.add('display-error');
+  if (!errorContainer.classList.contains('display-error')) {
+    errorContainer.classList.add('display-error');
+  }
 }
 
 function clearError() {
-  errorContainer.textContent = '';
-  errorContainer.classList.remove('display-error');
+  if (errorContainer.classList.contains('display-error')) {
+    errorContainer.textContent = '';
+    errorContainer.classList.remove('display-error');
+  }
 }
 
+function renderLoading() {
+  document.getElementById('forecast-header').textContent = 'Loading...';
+}
+
+const forecastDisplays = document.querySelectorAll('.forecast');
 function setActiveForecast(target) {
-  const forecastTabs = document.querySelectorAll('.tab');
-  Array.from(forecastTabs).forEach((tab) => {
+  Array.from(document.querySelectorAll('.tab')).forEach((tab) => {
     tab.classList.remove('active-tab');
     tab.setAttribute('aria-expanded', false);
   });
+
   target.classList.add('active-tab');
   target.setAttribute('aria-expanded', true);
 
-  const forecastDisplays = document.querySelectorAll('.forecast');
   Array.from(forecastDisplays).forEach((forecast) => {
     forecast.classList.remove('active-forecast');
   });
@@ -29,35 +36,63 @@ function setActiveForecast(target) {
   activeForecastDisplay.classList.add('active-forecast');
 }
 
-const renderForecasts = (data) => {
+const renderMainDisplay = (location, weather) => {
+  function updateLocationHeader() {
+    document.getElementById('forecast-header').textContent = location;
+  }
+
+  function clearForecastDisplays() {
+    Array.from(forecastDisplays).forEach((display) => {
+      while (display.lastChild) {
+        display.removeChild(display.lastChild);
+      }
+    });
+  }
+
+  const { current, daily, hourly, timezone_offset: offset } = weather;
   const iconURL = 'https://openweathermap.org/img/wn/';
   const range = document.createRange();
 
-  function renderCurrent() {
-    const { current } = data.current;
+  function renderCurrentForecast() {
     const forecast = `
-    <article id="current-forecast" class="forecast active-forecast">
-    <div>
-    <div>
-    ${current.temp.toFixed()}
-    ${current.feels_like.toFixed()}
+    <div class='current-main'>
+      <div class='current-temps'>
+        <div class='temp current-primary-temp'>
+          ${current.temp.toFixed()}
+        </div>
+        <div class='temp current-secondary-temp'>
+          ${current.feels_like.toFixed()}
+        </div>
+      </div>
+      <div class='current-weather'>
+        <img
+          class='current-icon'
+          src='${iconURL}${current.weather[0].icon}@4x.png' 
+          alt='' 
+          aria-hidden='true'
+        />
+        <div class='current-description'>
+          ${current.weather[0].description}
+        </div>
+      </div>
     </div>
-    <div>
-    <img src=${iconURL}${current.weather[0].icon}@4x.png>
-    <div>${current.weather[0].description}</div>
+    <div class='current-additional'>
+    ${new Date(current.sunrise * 1000)}<br>
+    ${new Date(current.sunset * 1000)}
+    ${current.wind_speed.toFixed()}
+    ${current.humidity}
+    ${current.uvi}
     </div>
-    </div>
-    <div>${new Date(current.sunrise * 1000)}
-    ${new Date(current.sunset * 1000)}</div>
-
-    </article>
     `;
 
     const fragment = range.createContextualFragment(forecast);
-    return fragment;
+    document.getElementById('current-forecast').appendChild(fragment);
   }
 
-  document.querySelector('.forecast-container').append(renderCurrent());
+  clearError();
+  updateLocationHeader();
+  clearForecastDisplays();
+  renderCurrentForecast();
 };
 
-export { setActiveForecast, renderError, clearError };
+export { setActiveForecast, renderError, renderMainDisplay, renderLoading };

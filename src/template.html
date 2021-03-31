@@ -18,13 +18,13 @@
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="assets/images/logos/fav-eye-con-t-16x16.png"
+      href="./assets/images/logos/fav-eye-con-t-16x16.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="assets/images/logos/fav-eye-con-t-32x32.png"
+      href="./assets/images/logos/fav-eye-con-t-32x32.png"
     />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -107,7 +107,7 @@
             </svg>
           </button>
           <div class="search-container">
-            <input id="location-search" type="text" />
+            <input id="location-search" type="text" autocomplete="off" />
             <div class="search-error" aria-live="polite"></div>
             <label for="location-search"
               >Enter city, state, and/or country<br />
@@ -138,7 +138,7 @@
     </header>
 
     <main id="main">
-      <nav id="upper-nav">
+      <nav id="upper-nav" aria-label="forecast tabs">
         <ul class="forecast-tabs">
           <li><div role="button" id="current-tab" class="active-tab tab" aria-expanded="true" aria-controls="current-forecast" tabindex="0">Current</div></li>
           <li><div role="button" id="hourly-tab" class="tab" aria-expanded="false" aria-controls="hourly-forecast" tabindex="0">Hourly</div></li>
@@ -147,9 +147,9 @@
       </nav>
       <div class="forecast-container" aria-live="polite">
         <h1 id="forecast-header">No location set</h1>
-        <article id="current-forecast" class="forecast">Display current weather info here.</article>
-        <article id="hourly-forecast" class="forecast">Display hourly weather info here.</article>
-        <article id="7-day-forecast" class="forecast">Display daily weather info here.</article>
+        <article id="current-forecast" class="forecast active-forecast"></article>
+        <article id="hourly-forecast" class="forecast"></article>
+        <article id="7-day-forecast" class="forecast"></article>
       </div>
     </main>
 

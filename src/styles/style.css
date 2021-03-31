@@ -9,9 +9,10 @@
       5.2 main content
     6. footer
       6.1 secondary nav
-    7. media queries
-      7.1 responsiveness
-      7.2 reduced motion
+    7. active/display toggles
+    8. media queries
+      8.1 responsiveness
+      8.2 reduced motion
 */
 
 /* ========== 1. variables ========== */
@@ -59,6 +60,7 @@
   --elevation-24dp: rgb(56, 56, 56); /* dialogue */
   /* text */
   --text-primary: rgb(255, 255, 255, 0.87);
+  --text-invert: rgba(0, 0, 0, 0.87);
   /* borders/outlines */
   --border-primary: 1px solid rgba(255, 255, 255, 0.6);
   --border-primary-focus: 1px solid rgb(255, 255, 255);
@@ -94,6 +96,7 @@
   --bg-search-btn: rgb(220, 220, 220);
   /* text */
   --text-primary: rgba(0, 0, 0, 0.87);
+  --text-invert: rgb(255, 255, 255, 0.87);
   /* borders/outlines */
   --border-primary: 1px solid rgba(0, 0, 0, 0.6);
   --border-primary-focus: 1px solid rgb(0, 0, 0);
@@ -115,10 +118,6 @@
 }
 
 /* ========== 2. global styles ========== */
-* {
-  box-sizing: border-box;
-}
-
 *:focus {
   outline: none;
 }
@@ -266,7 +265,7 @@ form {
   max-width: 400px;
   min-height: 3.25rem;
   margin: 20px 0 0;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
 }
 
 .form-btn {
@@ -335,13 +334,10 @@ label[for='location-search'] {
 
 .search-error {
   display: none;
-  padding: 10px;
+  padding: 5px;
   background-color: var(--error);
-  font-size: 0.8rem;
-}
-
-.display-error {
-  display: block;
+  color: var(--text-invert);
+  font-size: 0.9rem;
 }
 
 /* ========== 5. main ========== */
@@ -405,14 +401,10 @@ label[for='location-search'] {
   display: none;
 }
 
-.active-forecast {
-  display: block;
-}
-
 /* ========== 5.2 main content ========== */
 #main {
-  height: 150vh;
-  color: white;
+  min-height: 100vh;
+  color: var(--text-primary);
 }
 
 /* ========== 6. footer ========== */
@@ -422,6 +414,7 @@ footer {
   display: flex;
   justify-content: center;
   width: 100%;
+  margin-top: 50px;
   padding: 20px;
   color: var(--text-primary);
   font-size: 0.8rem;
@@ -455,8 +448,14 @@ footer {
   border-bottom: var(--border-primary);
 }
 
-/* ========== 7. media queries ========== */
-/* ========== 7.1 responsiveness ========== */
+/* ========== 7. active/display toggles ========== */
+.active-forecast,
+.display-error {
+  display: block;
+}
+
+/* ========== 8. media queries ========== */
+/* ========== 8.1 responsiveness ========== */
 @media only screen and (min-width: 430px) {
   #accessibility-container {
     justify-content: flex-start;
@@ -504,7 +503,7 @@ footer {
   }
 }
 
-/* ========== 7.2 reduced motion ========== */
+/* ========== 8.2 reduced motion ========== */
 @media (prefers-reduced-motion: reduce) {
   :root {
     scroll-behavior: unset !important;

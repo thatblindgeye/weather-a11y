@@ -1,10 +1,10 @@
 const convertToMetric = () => {
   function convertToCelsius() {}
 
-  function convertToKPH() {}
+  function convertToKMH() {}
 
   convertToCelsius();
-  convertToKPH();
+  convertToKMH();
 };
 
 const convertToImperial = () => {
@@ -16,11 +16,11 @@ const convertToImperial = () => {
   convertToMPH();
 };
 
+const unitButton = document.getElementById('unit-btn');
+
 function saveUnitType(unit) {
   localStorage.setItem('units', unit);
 }
-
-const unitButton = document.getElementById('unit-btn');
 
 function loadUnitType() {
   if (localStorage.getItem('units') === 'metric') {
@@ -40,4 +40,12 @@ function changeUnitType() {
   }
 }
 
-export { saveUnitType, changeUnitType, loadUnitType };
+const checkForSavedUnits = () => {
+  if (!localStorage.getItem('units')) {
+    saveUnitType('imperial');
+  } else {
+    loadUnitType();
+  }
+};
+
+export { checkForSavedUnits, changeUnitType };
