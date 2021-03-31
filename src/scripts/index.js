@@ -2,7 +2,7 @@ import '../styles/sanitize.css';
 import '../styles/style.css';
 import { themeOnLoad, toggleTheme } from './theme-settings';
 import { checkForSavedUnits, changeUnitType } from './unit-utilities';
-import setActiveForecast from './DOM-utilities';
+import { setActiveForecast } from './DOM-utilities';
 import getWeatherData from './fetch-logic';
 
 window.addEventListener('load', (e) => {
@@ -14,7 +14,12 @@ window.addEventListener('load', (e) => {
 });
 
 const unitButton = document.getElementById('unit-btn');
-unitButton.addEventListener('click', changeUnitType);
+unitButton.addEventListener('click', (e) => {
+  changeUnitType();
+  if (localStorage.getItem('recent location')) {
+    getWeatherData(e);
+  }
+});
 
 const themeSwitch = document.getElementById('theme-switch');
 themeSwitch.addEventListener('click', toggleTheme);

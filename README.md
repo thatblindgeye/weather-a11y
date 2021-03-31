@@ -32,6 +32,6 @@ When attempting to search for a location, you must follow one of the following f
 
 ### Change Units
 
-Click the 'current units' button and you're all set! If you change the units before submitting a location, the weather data will be returned in the selected units. If you change the units for the currently dispalyed weather, the units will be converted immediately without requiring another API request.
+Click the 'current units' button and you're all set! If you change the units before submitting a location, the weather data will be returned in the selected units. If you change the units for the currently dispalyed weather, a new API request will be made.
 
 ## Issues During Creation/Misc. Notes

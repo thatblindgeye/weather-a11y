@@ -56,7 +56,7 @@ async function getWeatherData(e) {
   let longitude;
 
   try {
-    if (e.type === 'load') {
+    if (e.type === 'load' || e.target === document.getElementById('unit-btn')) {
       [locationName, latitude, longitude] = loadLocation();
     } else if (e.type === 'submit') {
       coordinateResponse = await convertInputToCoordinates();

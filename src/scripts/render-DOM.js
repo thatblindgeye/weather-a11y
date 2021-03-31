@@ -1,3 +1,10 @@
+import {
+  convertToLocalDate,
+  createTempString,
+  convertWindSpeed,
+  createUviString,
+} from './DOM-utilities';
+
 const errorContainer = document.querySelector('.search-error');
 function renderError(message) {
   errorContainer.textContent = message;
@@ -13,16 +20,18 @@ function clearError() {
   }
 }
 
-function renderMainDisplay(location, weather) {
-  document.getElementById('forecast-header').textContent = location;
-
+function clearMainDisplay() {
   Array.from(document.querySelectorAll('.forecast')).forEach((display) => {
     while (display.lastChild) {
       display.removeChild(display.lastChild);
     }
   });
+}
 
-  const { current, daily, hourly, timezone_offset: offset } = weather;
+function renderMainDisplay(location, weather) {
+  document.getElementById('forecast-header').textContent = location;
+
+  const { current, daily, hourly, timezone } = weather;
   const iconURL = 'https://openweathermap.org/img/wn/';
   const range = document.createRange();
 
@@ -31,10 +40,10 @@ function renderMainDisplay(location, weather) {
     <div class='current-main'>
       <div class='current-temps'>
         <div class='temp current-primary-temp'>
-          ${current.temp.toFixed()}
+          ${createTempString(current.temp)}
         </div>
         <div class='temp current-secondary-temp'>
-          ${current.feels_like.toFixed()}
+          ${createTempString(current.feels_like)}
         </div>
       </div>
       <div class='current-weather'>
@@ -50,11 +59,11 @@ function renderMainDisplay(location, weather) {
       </div>
     </div>
     <div class='current-additional'>
-      ${new Date(current.sunrise * 1000)}<br>
-      ${new Date(current.sunset * 1000)}
-      ${current.wind_speed.toFixed()}
-      ${current.humidity}
-      ${current.uvi.toFixed()}
+      ${convertToLocalDate(current.sunrise, timezone)}<br>
+      ${convertToLocalDate(current.sunset, timezone)} <br>
+      ${convertWindSpeed(current.wind_speed)}
+      ${current.humidity}%
+      ${createUviString(current.uvi)}
     </div>
     `;
 
@@ -66,9 +75,10 @@ function renderMainDisplay(location, weather) {
     for (let i = 0; i < 24; i++) {
       const forecast = `
       <div>
-      ${new Date(hourly[i].dt * 1000)} <br>
-      ${hourly[i].temp.toFixed()} <br>
-      ${hourly[i].feels_like.toFixed()} <br>
+      
+      ${convertToLocalDate(hourly[i].dt, timezone)} <br>
+      ${createTempString(hourly[i].temp)} <br>
+      ${createTempString(hourly[i].feels_like)} <br>
       <img
       class='current-icon'
       src='${iconURL}${hourly[i].weather[0].icon}.png' 
@@ -76,7 +86,7 @@ function renderMainDisplay(location, weather) {
       aria-hidden='true'
       />
       ${hourly[i].weather[0].description} <br>
-      ${hourly[i].pop.toFixed()} <br>
+      ${(hourly[i].pop * 100).toFixed()}% <br>
       </div>
       `;
 
@@ -89,9 +99,10 @@ function renderMainDisplay(location, weather) {
     for (let i = 0; i < 8; i++) {
       const forecast = `
       <div>
-      ${new Date(daily[i].dt * 1000)} <br>
-      ${daily[i].temp.max.toFixed()} <br>
-      ${daily[i].temp.min.toFixed()} <br>
+      ${convertToLocalDate(daily[i].dt, timezone)}<br>
+      
+      ${createTempString(daily[i].temp.max)} <br>
+      ${createTempString(daily[i].temp.min)} <br>
       <img
       class='current-icon'
       src='${iconURL}${daily[i].weather[0].icon}.png' 
@@ -99,9 +110,9 @@ function renderMainDisplay(location, weather) {
       aria-hidden='true'
       />
       ${daily[i].weather[0].description} <br>
-      ${daily[i].pop.toFixed()}% <br>
-      ${daily[i].sunrise} <br>
-      ${daily[i].sunset} <br>
+      ${(daily[i].pop * 100).toFixed()}% <br>
+      ${convertToLocalDate(daily[i].sunrise, timezone)}<br>
+      ${convertToLocalDate(daily[i].sunset, timezone)} <br>
       </div>
       `;
 
@@ -110,6 +121,7 @@ function renderMainDisplay(location, weather) {
     }
   };
 
+  clearMainDisplay();
   renderCurrentForecast();
   renderHourlyForecast();
   renderDailyForecast();

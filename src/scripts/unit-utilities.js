@@ -1,21 +1,3 @@
-function convertToMetric() {
-  function convertToCelsius() {}
-
-  function convertToKMH() {}
-
-  convertToCelsius();
-  convertToKMH();
-}
-
-function convertToImperial() {
-  function convertToFahrenheit() {}
-
-  function convertToMPH() {}
-
-  convertToFahrenheit();
-  convertToMPH();
-}
-
 function saveUnitType(unit) {
   localStorage.setItem('units', unit);
 }
