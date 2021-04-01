@@ -5,17 +5,6 @@ import {
   createUviString,
 } from './DOM-utilities';
 
-const errorContainer = document.querySelector('.search-error');
-function renderError(message) {
-  errorContainer.textContent = message;
-  errorContainer.classList.add('display-error');
-}
-
-function clearError() {
-  errorContainer.textContent = '';
-  errorContainer.classList.remove('display-error');
-}
-
 function clearMainDisplay() {
   Array.from(document.querySelectorAll('.forecast')).forEach((forecast) => {
     while (forecast.lastChild) {
@@ -159,4 +148,4 @@ function renderMainDisplay(location, weather) {
   renderDailyForecast();
 }
 
-export { renderError, clearError, renderMainDisplay };
+export default renderMainDisplay;
