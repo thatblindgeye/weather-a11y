@@ -6,9 +6,9 @@ import {
 } from './location-utilities';
 
 const API_KEY = '13aa14e68e00ac80cb7c634dc1194d83';
+const searchInput = document.getElementById('location-search');
 
 async function convertInputToCoordinates() {
-  const searchInput = document.getElementById('location-search');
   if (!searchInput.value) {
     throw new Error('Search field cannot be blank.');
   }
@@ -27,7 +27,6 @@ async function convertInputToCoordinates() {
     return coordinateData[selectedLocation];
   }
 
-  searchInput.value = '';
   return coordinateData[0];
 }
 
@@ -71,6 +70,7 @@ async function getWeatherData(e) {
     }
     saveLocation(locationName, latitude, longitude);
     document.getElementById('forecast-header').textContent = 'Loading...';
+    searchInput.value = '';
 
     const weatherResponse = await fetch(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely&units=${units}&appid=${API_KEY}`

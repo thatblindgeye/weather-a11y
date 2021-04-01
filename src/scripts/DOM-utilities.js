@@ -1,7 +1,10 @@
+import fromUnixTime from 'date-fns/fromUnixTime';
+import format from 'date-fns/format';
+
 // auto scroll the page to the top of forecast container
 // when clicking a new forecast tab
-const offset = document.getElementById('upper-nav').offsetTop;
 function scrollToTop() {
+  const offset = document.querySelector('header').scrollHeight;
   if (document.documentElement.scrollTop > offset) {
     document.documentElement.scrollTop = `${offset}`;
   }
@@ -27,14 +30,19 @@ function setActiveForecast(target) {
   scrollToTop();
 }
 
-function convertToLocalDate(time, zoneOption) {
-  // convert time from API to milliseconds
-  const milliseconds = time * 1000;
-  const localDate = new Date(milliseconds).toLocaleString('en-US', {
+// convert times from API request to milliseconds and adjust based on time zone
+function convertDate(data, zoneOption) {
+  const options = {
     timeZone: `${zoneOption}`,
-  });
+  };
 
-  return localDate;
+  const formattedDate = format(new Date(fromUnixTime(data)), 'MMM d');
+  const formattedTime = format(
+    new Date(fromUnixTime(data).toLocaleString('en-US', options)),
+    'h:mm aaaa'
+  );
+
+  return { formattedDate, formattedTime };
 }
 
 function createTempString(number) {
@@ -45,33 +53,30 @@ function createTempString(number) {
 }
 
 function createUviString(uvi) {
-  const uviNumber = Number(uvi.toFixed());
-  console.log(typeof uviNumber);
-  let uviString = uviNumber;
+  let uviString = uvi.toFixed();
 
-  switch (uviNumber) {
-    case 1:
-    case 2:
+  switch (uviString) {
+    case '0':
+    case '1':
+    case '2':
       uviString += ' (low)';
       break;
-    case 3:
-    case 4:
-    case 5:
-      uviString += ' (medium)';
+    case '3':
+    case '4':
+    case '5':
+      uviString += ' (moderate)';
       break;
-    case 6:
-    case 7:
+    case '6':
+    case '7':
       uviString += ' (high)';
       break;
-    case 8:
-    case 9:
-    case 10:
+    case '8':
+    case '9':
+    case '10':
       uviString += ' (very high)';
       break;
-    case 11:
-      uviString += ' (extreme)';
-      break;
     default:
+      uviString += ' (extreme)';
       break;
   }
 
@@ -86,18 +91,10 @@ function convertWindSpeed(number) {
   return `${number.toFixed()} mph`;
 }
 
-function convertRainChance(number) {
-  if (localStorage.getItem('units') === 'metric') {
-    // convert API's wind of meter/sec to km/h
-    return `${(number * 3.6).toFixed()} km/h`;
-  }
-  return `${number.toFixed()} mph`;
-}
-
 export {
   setActiveForecast,
-  convertToLocalDate,
-  createTempString,
+  convertDate,
   convertWindSpeed,
+  createTempString,
   createUviString,
 };

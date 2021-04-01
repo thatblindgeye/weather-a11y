@@ -1,5 +1,5 @@
 import {
-  convertToLocalDate,
+  convertDate,
   createTempString,
   convertWindSpeed,
   createUviString,
@@ -59,8 +59,8 @@ function renderMainDisplay(location, weather) {
       </div>
     </div>
     <div class='current-additional'>
-      ${convertToLocalDate(current.sunrise, timezone)}<br>
-      ${convertToLocalDate(current.sunset, timezone)} <br>
+      ${convertDate(current.sunrise, timezone).formattedTime}<br>
+      ${convertDate(current.sunset, timezone).formattedTime} <br>
       ${convertWindSpeed(current.wind_speed)}
       ${current.humidity}%
       ${createUviString(current.uvi)}
@@ -76,7 +76,8 @@ function renderMainDisplay(location, weather) {
       const forecast = `
       <div>
       
-      ${convertToLocalDate(hourly[i].dt, timezone)} <br>
+      ${convertDate(hourly[i].dt, timezone).formattedDate} <br>
+      ${convertDate(hourly[i].dt, timezone).formattedTime}<br>
       ${createTempString(hourly[i].temp)} <br>
       ${createTempString(hourly[i].feels_like)} <br>
       <img
@@ -99,7 +100,7 @@ function renderMainDisplay(location, weather) {
     for (let i = 0; i < 8; i++) {
       const forecast = `
       <div>
-      ${convertToLocalDate(daily[i].dt, timezone)}<br>
+      ${convertDate(daily[i].dt, timezone).formattedDate}<br>
       
       ${createTempString(daily[i].temp.max)} <br>
       ${createTempString(daily[i].temp.min)} <br>
@@ -111,8 +112,8 @@ function renderMainDisplay(location, weather) {
       />
       ${daily[i].weather[0].description} <br>
       ${(daily[i].pop * 100).toFixed()}% <br>
-      ${convertToLocalDate(daily[i].sunrise, timezone)}<br>
-      ${convertToLocalDate(daily[i].sunset, timezone)} <br>
+      ${convertDate(daily[i].sunrise, timezone).formattedTime}<br>
+      ${convertDate(daily[i].sunset, timezone).formattedTime} <br>
       </div>
       `;
 

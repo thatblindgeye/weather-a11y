@@ -337,7 +337,7 @@ label[for='location-search'] {
   padding: 5px;
   background-color: var(--error);
   color: var(--text-invert);
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 /* ========== 5. main ========== */

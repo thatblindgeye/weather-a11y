@@ -2,6 +2,7 @@ const themeSwitch = document.querySelector('#theme-switch');
 const darkIcon = document.getElementById('dark-theme-icon');
 const lightIcon = document.getElementById('light-theme-icon');
 const githubLogo = document.querySelector('.github-icon');
+const githubBlack = require('../assets/images/logos/GitHub-Black-Mark-32px.png');
 
 const saveTheme = () => {
   localStorage.setItem(

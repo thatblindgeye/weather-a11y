@@ -54,5 +54,8 @@
     "hooks": {
       "pre-commit": "npx eslint ./src/."
     }
+  },
+  "dependencies": {
+    "date-fns": "^2.19.0"
   }
 }
