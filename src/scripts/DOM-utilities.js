@@ -91,10 +91,21 @@ function convertWindSpeed(number) {
   return `${number.toFixed()} mph`;
 }
 
+function toggleAlertExpand(target) {
+  if (target.getAttribute('aria-expanded') === 'false') {
+    target.setAttribute('aria-expanded', 'true');
+  } else {
+    target.setAttribute('aria-expanded', 'false');
+  }
+
+  target.nextElementSibling.classList.toggle('expanded');
+}
+
 export {
   setActiveForecast,
   convertDate,
   convertWindSpeed,
   createTempString,
   createUviString,
+  toggleAlertExpand,
 };

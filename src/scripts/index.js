@@ -2,12 +2,13 @@ import '../styles/sanitize.css';
 import '../styles/style.css';
 import { themeOnLoad, toggleTheme } from './theme-settings';
 import { checkForSavedUnits, changeUnitType } from './unit-utilities';
-import { setActiveForecast } from './DOM-utilities';
+import { setActiveForecast, toggleAlertExpand } from './DOM-utilities';
 import getWeatherData from './fetch-logic';
 
 window.addEventListener('load', (e) => {
   themeOnLoad();
   checkForSavedUnits();
+
   if (localStorage.getItem('recent location')) {
     getWeatherData(e);
   }
@@ -56,4 +57,10 @@ form.addEventListener('submit', (e) => {
 document.querySelector('.use-location-btn').addEventListener('click', (e) => {
   getWeatherData(e);
   setActiveForecast(defaultTab);
+});
+
+document.getElementById('current-forecast').addEventListener('click', (e) => {
+  if (e.target.className === 'alert-name') {
+    toggleAlertExpand(e.target);
+  }
 });

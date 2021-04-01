@@ -8,22 +8,18 @@ import {
 const errorContainer = document.querySelector('.search-error');
 function renderError(message) {
   errorContainer.textContent = message;
-  if (!errorContainer.classList.contains('display-error')) {
-    errorContainer.classList.add('display-error');
-  }
+  errorContainer.classList.add('display-error');
 }
 
 function clearError() {
-  if (errorContainer.classList.contains('display-error')) {
-    errorContainer.textContent = '';
-    errorContainer.classList.remove('display-error');
-  }
+  errorContainer.textContent = '';
+  errorContainer.classList.remove('display-error');
 }
 
 function clearMainDisplay() {
-  Array.from(document.querySelectorAll('.forecast')).forEach((display) => {
-    while (display.lastChild) {
-      display.removeChild(display.lastChild);
+  Array.from(document.querySelectorAll('.forecast')).forEach((forecast) => {
+    while (forecast.lastChild) {
+      forecast.removeChild(forecast.lastChild);
     }
   });
 }
@@ -35,7 +31,34 @@ function renderMainDisplay(location, weather) {
   const iconURL = 'https://openweathermap.org/img/wn/';
   const range = document.createRange();
 
+  const alerts = [
+    {
+      event: 'Heat Advisory',
+      description: `...HEAT ADVISORY REMAINS IN EFFECT FROM 1 PM THIS AFTERNOON TO\n8 PM CDT THIS EVENING...\n* WHAT...Heat index values of 105 to 109 degrees expected.\n* WHERE...Creek, Okfuskee, Okmulgee, McIntosh, Pittsburg,\nLatimer, Pushmataha, and Choctaw Counties.\n* WHEN...From 1 PM to 8 PM CDT Thursday.\n* IMPACTS...The combination of hot temperatures and high\nhumidity will combine to create a dangerous situation in which\nheat illnesses are possible.`,
+    },
+  ];
+
   const renderCurrentForecast = () => {
+    const container = document.createElement('div');
+
+    if (alerts) {
+      for (let i = 0; i < alerts.length; i++) {
+        const alert = `
+        <div class='alert-container'>
+          <div role='button' class='alert-name' aria-expanded='false'>
+          ${alerts[i].event}
+          </div>
+          <div class='alert-description'>
+          ${alerts[i].description.replace(/\n/g, '<br>')}
+          </div>
+        </div>
+        `;
+
+        const alertFragment = range.createContextualFragment(alert);
+        container.appendChild(alertFragment);
+      }
+    }
+
     const forecast = `
     <div class='current-main'>
       <div class='current-temps'>
@@ -68,14 +91,16 @@ function renderMainDisplay(location, weather) {
     `;
 
     const fragment = range.createContextualFragment(forecast);
-    document.getElementById('current-forecast').appendChild(fragment);
+    container.appendChild(fragment);
+    document.getElementById('current-forecast').appendChild(container);
   };
 
   const renderHourlyForecast = () => {
+    const container = document.createElement('div');
+
     for (let i = 0; i < 24; i++) {
       const forecast = `
       <div>
-      
       ${convertDate(hourly[i].dt, timezone).formattedDate} <br>
       ${convertDate(hourly[i].dt, timezone).formattedTime}<br>
       ${createTempString(hourly[i].temp)} <br>
@@ -92,11 +117,15 @@ function renderMainDisplay(location, weather) {
       `;
 
       const fragment = range.createContextualFragment(forecast);
-      document.getElementById('hourly-forecast').appendChild(fragment);
+      container.appendChild(fragment);
     }
+
+    document.getElementById('hourly-forecast').appendChild(container);
   };
 
   const renderDailyForecast = () => {
+    const container = document.createElement('div');
+
     for (let i = 0; i < 8; i++) {
       const forecast = `
       <div>
@@ -118,8 +147,10 @@ function renderMainDisplay(location, weather) {
       `;
 
       const fragment = range.createContextualFragment(forecast);
-      document.getElementById('daily-forecast').appendChild(fragment);
+      container.appendChild(fragment);
     }
+
+    document.getElementById('daily-forecast').appendChild(container);
   };
 
   clearMainDisplay();

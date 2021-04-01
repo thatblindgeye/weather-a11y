@@ -255,6 +255,7 @@ header {
 }
 
 label[for='unit-btn'] {
+  margin-top: 5px;
   text-align: center;
 }
 
@@ -407,6 +408,10 @@ label[for='location-search'] {
   color: var(--text-primary);
 }
 
+.alert-description {
+  display: none;
+}
+
 /* ========== 6. footer ========== */
 
 /* ========== 6.1 secondary nav ========== */
@@ -450,7 +455,8 @@ footer {
 
 /* ========== 7. active/display toggles ========== */
 .active-forecast,
-.display-error {
+.display-error,
+.expanded {
   display: block;
 }
 

@@ -68,6 +68,7 @@ async function getWeatherData(e) {
       latitude = coordinateResponse.coords.latitude;
       longitude = coordinateResponse.coords.longitude;
     }
+
     saveLocation(locationName, latitude, longitude);
     document.getElementById('forecast-header').textContent = 'Loading...';
     searchInput.value = '';
