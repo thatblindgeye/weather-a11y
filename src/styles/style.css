@@ -333,12 +333,16 @@ label[for='location-search'] {
   color: var(--text-primary);
 }
 
-.search-error {
+.search-error-container {
   display: none;
   padding: 5px;
   background-color: var(--error);
   color: var(--text-invert);
   font-size: 1rem;
+}
+
+.search-results-container {
+  display: none;
 }
 
 /* ========== 5. main ========== */
@@ -408,6 +412,10 @@ label[for='location-search'] {
   color: var(--text-primary);
 }
 
+.location-list-container {
+  display: none;
+}
+
 .alert-description {
   display: none;
 }
@@ -455,7 +463,7 @@ footer {
 
 /* ========== 7. active/display toggles ========== */
 .active-forecast,
-.display-error,
+.visible,
 .expanded {
   display: block;
 }

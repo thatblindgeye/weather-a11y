@@ -5,53 +5,69 @@ import {
   createLocationString,
 } from './location-utilities';
 
-const errorContainer = document.querySelector('.search-error');
-function renderError(message) {
+const errorContainer = document.querySelector('.search-error-container');
+
+function displayError(message) {
   errorContainer.textContent = message;
-  errorContainer.classList.add('display-error');
+  errorContainer.classList.add('visible');
 }
 
 function clearError() {
   errorContainer.textContent = '';
-  errorContainer.classList.remove('display-error');
+  errorContainer.classList.remove('visible');
 }
+
+const resultsContainer = document.querySelector('.search-results-container');
 
 function renderLocationList(data) {
   const range = document.createRange();
+
+  const resultsAmount = `
+  <div class='results-amount' aria-role='status'>
+    ${data.length} results:
+  </div>
+  `;
+
+  const resultsFragment = range.createContextualFragment(resultsAmount);
+
   const list = document.createElement('ul');
   list.className = 'location-list';
 
   for (let i = 0; i < data.length; i++) {
     const item = `
     <li>
-      <a href='#' data-index='${i}'>
+      <a href='#' class='result-item' data-index='${i}'>
         ${createLocationString(data[i])}
       </a>
     </li>
     `;
 
-    const fragment = range.createContextualFragment(item);
-    list.appendChild(fragment);
+    const itemFragment = range.createContextualFragment(item);
+    list.appendChild(itemFragment);
   }
 
-  document.querySelector('.location-list-container').appendChild(list);
+  resultsContainer.append(resultsFragment, list);
+  resultsContainer.classList.add('visible');
 }
 
-const listContainer = document.querySelector('.location-list-container');
 function clearLocationList() {
-  while (listContainer.lastChild) {
-    listContainer.removeChild(listContainer.lastChild);
+  while (resultsContainer.lastChild) {
+    resultsContainer.removeChild(resultsContainer.lastChild);
   }
+
+  resultsContainer.classList.remove('visible');
 }
 
 function getListItemData() {
   return new Promise((resolve) => {
     const promiseFunction = (e) => {
-      listContainer.removeEventListener('click', promiseFunction);
-      resolve(e.target.dataset.index);
-      clearLocationList();
+      if (e.target.className === 'result-item') {
+        resultsContainer.removeEventListener('click', promiseFunction);
+        resolve(e.target.dataset.index);
+        clearLocationList();
+      }
     };
-    listContainer.addEventListener('click', promiseFunction);
+    resultsContainer.addEventListener('click', promiseFunction);
   });
 }
 
@@ -129,10 +145,9 @@ async function getWeatherData(e) {
     );
 
     const weatherData = await weatherResponse.json();
-
     renderMainDisplay(locationName, weatherData);
   } catch (error) {
-    renderError(error.message);
+    displayError(error.message);
   }
 }
 

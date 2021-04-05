@@ -28,7 +28,7 @@ function renderMainDisplay(location, weather) {
   ];
 
   const renderCurrentForecast = () => {
-    const container = document.createElement('div');
+    const currentForecastContainer = document.createElement('div');
 
     if (alerts) {
       for (let i = 0; i < alerts.length; i++) {
@@ -44,7 +44,7 @@ function renderMainDisplay(location, weather) {
         `;
 
         const alertFragment = range.createContextualFragment(alert);
-        container.appendChild(alertFragment);
+        currentForecastContainer.appendChild(alertFragment);
       }
     }
 
@@ -80,12 +80,14 @@ function renderMainDisplay(location, weather) {
     `;
 
     const fragment = range.createContextualFragment(forecast);
-    container.appendChild(fragment);
-    document.getElementById('current-forecast').appendChild(container);
+    currentForecastContainer.appendChild(fragment);
+    document
+      .getElementById('current-forecast')
+      .appendChild(currentForecastContainer);
   };
 
   const renderHourlyForecast = () => {
-    const container = document.createElement('div');
+    const hourlyForecastContainer = document.createElement('div');
 
     for (let i = 0; i < 24; i++) {
       const forecast = `
@@ -106,14 +108,16 @@ function renderMainDisplay(location, weather) {
       `;
 
       const fragment = range.createContextualFragment(forecast);
-      container.appendChild(fragment);
+      hourlyForecastContainer.appendChild(fragment);
     }
 
-    document.getElementById('hourly-forecast').appendChild(container);
+    document
+      .getElementById('hourly-forecast')
+      .appendChild(hourlyForecastContainer);
   };
 
   const renderDailyForecast = () => {
-    const container = document.createElement('div');
+    const dailyForecastContainer = document.createElement('div');
 
     for (let i = 0; i < 8; i++) {
       const forecast = `
@@ -136,10 +140,12 @@ function renderMainDisplay(location, weather) {
       `;
 
       const fragment = range.createContextualFragment(forecast);
-      container.appendChild(fragment);
+      dailyForecastContainer.appendChild(fragment);
     }
 
-    document.getElementById('daily-forecast').appendChild(container);
+    document
+      .getElementById('daily-forecast')
+      .appendChild(dailyForecastContainer);
   };
 
   clearMainDisplay();
