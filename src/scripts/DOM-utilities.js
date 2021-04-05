@@ -39,7 +39,7 @@ function convertDate(data, zoneOption) {
   const formattedDate = format(new Date(fromUnixTime(data)), 'MMM d');
   const formattedTime = format(
     new Date(fromUnixTime(data).toLocaleString('en-US', options)),
-    'h:mm aaaa'
+    'h:mm aa'
   );
 
   return { formattedDate, formattedTime };
