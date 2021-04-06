@@ -18,12 +18,12 @@ function clearError() {
 
 const resultsContainer = document.querySelector('.search-results-container');
 const searchInput = document.getElementById('location-search');
-function renderSearchResults(data) {
+function renderSearchResults(results) {
   const range = document.createRange();
 
   const resultsAmount = `
     <div class='results-amount' aria-role='status'>
-      ${data.length} results for "${searchInput.value}":
+      ${results.length} results for "${searchInput.value}":
     </div>
   `;
   const resultsFragment = range.createContextualFragment(resultsAmount);
@@ -31,11 +31,11 @@ function renderSearchResults(data) {
   const list = document.createElement('ul');
   list.className = 'location-list';
 
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; i < results.length; i++) {
     const item = `
     <li>
       <a href='#' class='result-item' data-index='${i}'>
-        ${createLocationString(data[i])}
+        ${createLocationString(results[i])}
       </a>
     </li>
     `;
@@ -43,7 +43,6 @@ function renderSearchResults(data) {
     const itemFragment = range.createContextualFragment(item);
     list.appendChild(itemFragment);
   }
-
   resultsContainer.append(resultsFragment, list);
   resultsContainer.classList.add('visible');
 }
@@ -52,7 +51,6 @@ function clearSearchResults() {
   while (resultsContainer.lastChild) {
     resultsContainer.removeChild(resultsContainer.lastChild);
   }
-
   resultsContainer.classList.remove('visible');
 }
 
@@ -89,7 +87,6 @@ async function convertInputToCoordinates() {
     const selectedItem = await getSelectedData();
     return coordinateData[selectedItem];
   }
-
   return coordinateData[0];
 }
 
@@ -132,15 +129,13 @@ async function getWeatherData(e) {
       latitude = coordinateResponse.coords.latitude;
       longitude = coordinateResponse.coords.longitude;
     }
-
+    searchInput.value = '';
     saveLocation(locationName, latitude, longitude);
     document.getElementById('forecast-header').textContent = 'Loading...';
-    searchInput.value = '';
 
     const weatherResponse = await fetch(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely&units=${units}&appid=${API_KEY}`
     );
-
     const weatherData = await weatherResponse.json();
     renderMainDisplay(locationName, weatherData);
   } catch (error) {
