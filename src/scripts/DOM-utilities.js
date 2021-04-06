@@ -30,22 +30,22 @@ function setActiveForecast(target) {
   scrollToTop();
 }
 
-// convert times from API request to milliseconds and adjust based on time zone
-function convertDate(data, zoneOption) {
+function convertDate(data, zoneOption, pattern) {
   const options = {
     timeZone: `${zoneOption}`,
   };
 
-  const formattedDate = format(new Date(fromUnixTime(data)), 'MMM d');
-  const formattedTime = format(
+  // convert times from API request to milliseconds for date and
+  // format time so that it is based on search locations' timezone
+  const formattedDate = format(
     new Date(fromUnixTime(data).toLocaleString('en-US', options)),
-    'h:mm aa'
+    pattern
   );
 
-  return { formattedDate, formattedTime };
+  return formattedDate;
 }
 
-function createTempString(number) {
+function createTemperatureString(number) {
   if (localStorage.getItem('units') === 'metric') {
     return `${number.toFixed()}° C`;
   }
@@ -91,21 +91,32 @@ function convertWindSpeed(number) {
   return `${number.toFixed()} mph`;
 }
 
-function toggleAlertExpand(target) {
+function toggleAriaExpanded(target) {
   if (target.getAttribute('aria-expanded') === 'false') {
     target.setAttribute('aria-expanded', 'true');
   } else {
     target.setAttribute('aria-expanded', 'false');
   }
+}
 
-  target.nextElementSibling.classList.toggle('expanded');
+function toggleAlertExpand(e) {
+  if (
+    e.target.className === 'alert-container' ||
+    e.target.parentElement.className === 'alert-container'
+  ) {
+    const alertContainer = document.querySelector('.alert-container');
+    const alertDescription = alertContainer.children[1];
+
+    toggleAriaExpanded(alertContainer);
+    alertDescription.classList.toggle('expanded');
+  }
 }
 
 export {
   setActiveForecast,
   convertDate,
   convertWindSpeed,
-  createTempString,
+  createTemperatureString,
   createUviString,
   toggleAlertExpand,
 };

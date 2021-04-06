@@ -6,8 +6,7 @@ import {
 } from './location-utilities';
 
 const errorContainer = document.querySelector('.search-error-container');
-
-function displayError(message) {
+function renderError(message) {
   errorContainer.textContent = message;
   errorContainer.classList.add('visible');
 }
@@ -18,16 +17,15 @@ function clearError() {
 }
 
 const resultsContainer = document.querySelector('.search-results-container');
-
-function renderLocationList(data) {
+const searchInput = document.getElementById('location-search');
+function renderSearchResults(data) {
   const range = document.createRange();
 
   const resultsAmount = `
-  <div class='results-amount' aria-role='status'>
-    ${data.length} results:
-  </div>
+    <div class='results-amount' aria-role='status'>
+      ${data.length} results for "${searchInput.value}":
+    </div>
   `;
-
   const resultsFragment = range.createContextualFragment(resultsAmount);
 
   const list = document.createElement('ul');
@@ -50,7 +48,7 @@ function renderLocationList(data) {
   resultsContainer.classList.add('visible');
 }
 
-function clearLocationList() {
+function clearSearchResults() {
   while (resultsContainer.lastChild) {
     resultsContainer.removeChild(resultsContainer.lastChild);
   }
@@ -58,13 +56,13 @@ function clearLocationList() {
   resultsContainer.classList.remove('visible');
 }
 
-function getListItemData() {
+function getSelectedData() {
   return new Promise((resolve) => {
     const promiseFunction = (e) => {
       if (e.target.className === 'result-item') {
         resultsContainer.removeEventListener('click', promiseFunction);
         resolve(e.target.dataset.index);
-        clearLocationList();
+        clearSearchResults();
       }
     };
     resultsContainer.addEventListener('click', promiseFunction);
@@ -72,7 +70,6 @@ function getListItemData() {
 }
 
 const API_KEY = '13aa14e68e00ac80cb7c634dc1194d83';
-const searchInput = document.getElementById('location-search');
 
 async function convertInputToCoordinates() {
   if (!searchInput.value) {
@@ -88,8 +85,8 @@ async function convertInputToCoordinates() {
   if (coordinateData.length === 0 || coordinateData.cod === '404') {
     throw new Error(`Location "${searchInput.value}" not found.`);
   } else if (coordinateData.length > 1) {
-    renderLocationList(coordinateData);
-    const selectedItem = await getListItemData();
+    renderSearchResults(coordinateData);
+    const selectedItem = await getSelectedData();
     return coordinateData[selectedItem];
   }
 
@@ -113,7 +110,7 @@ function getUserGeolocation() {
 
 async function getWeatherData(e) {
   clearError();
-  clearLocationList();
+  clearSearchResults();
 
   const units = localStorage.getItem('units');
   let coordinateResponse;
@@ -147,7 +144,7 @@ async function getWeatherData(e) {
     const weatherData = await weatherResponse.json();
     renderMainDisplay(locationName, weatherData);
   } catch (error) {
-    displayError(error.message);
+    renderError(error.message);
   }
 }
 

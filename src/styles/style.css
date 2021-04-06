@@ -355,6 +355,11 @@ label[for='location-search'] {
   background-color: var(--bg-base);
 }
 
+/* remove styling from sanitize.css */
+nav li::before {
+  content: '';
+}
+
 .forecast-tabs {
   display: flex;
   justify-content: space-between;

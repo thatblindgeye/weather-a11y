@@ -59,8 +59,11 @@ document.querySelector('.use-location-btn').addEventListener('click', (e) => {
   setActiveForecast(defaultTab);
 });
 
-document.getElementById('current-forecast').addEventListener('click', (e) => {
-  if (e.target.className === 'alert-name') {
-    toggleAlertExpand(e.target);
+const currentForecast = document.getElementById('current-forecast');
+currentForecast.addEventListener('click', toggleAlertExpand);
+currentForecast.addEventListener('keydown', (e) => {
+  if (e.key === ' ' || e.key === 'Enter') {
+    e.preventDefault();
+    toggleAlertExpand(e);
   }
 });

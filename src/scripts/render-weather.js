@@ -1,6 +1,6 @@
 import {
   convertDate,
-  createTempString,
+  createTemperatureString,
   convertWindSpeed,
   createUviString,
 } from './DOM-utilities';
@@ -17,6 +17,10 @@ function renderMainDisplay(location, weather) {
   document.getElementById('forecast-header').textContent = location;
 
   const { current, daily, hourly, timezone } = weather;
+  const timeAttribute = (data) => {
+    return `${convertDate(data, timezone, 'yyyy-MM-dd kk:mm:ss')}`;
+  };
+
   const iconURL = 'https://openweathermap.org/img/wn/';
   const range = document.createRange();
 
@@ -31,21 +35,20 @@ function renderMainDisplay(location, weather) {
     const currentForecastContainer = document.createElement('div');
 
     if (alerts) {
-      for (let i = 0; i < alerts.length; i++) {
-        const alert = `
-        <div class='alert-container'>
-          <div role='button' class='alert-name' aria-expanded='false'>
-          ${alerts[i].event}
-          </div>
-          <div class='alert-description'>
-          ${alerts[i].description.replace(/\n/g, '<br>')}
-          </div>
+      const alert = `
+      <div class='alert-container' 
+        role='button' 
+        aria-expanded='false' 
+        tabindex='0'>
+          <span class='alert-name'>${alerts[0].event}</span>
+        <div class='alert-description'>
+        ${alerts[0].description.replace(/\n/g, '<br>')}
         </div>
-        `;
+      </div>
+      `;
 
-        const alertFragment = range.createContextualFragment(alert);
-        currentForecastContainer.appendChild(alertFragment);
-      }
+      const alertFragment = range.createContextualFragment(alert);
+      currentForecastContainer.appendChild(alertFragment);
     }
 
     const forecast = `
@@ -55,13 +58,13 @@ function renderMainDisplay(location, weather) {
           id='current-primary-temp' 
           aria-label='current temperature'
           aria-describedby='current-primary-temp'>
-            ${createTempString(current.temp)}
+            ${createTemperatureString(current.temp)}
         </div>
         <div 
           id='current-secondary-temp' 
           aria-label='current temperature'
           aria-describedby='current-secondary-temp'>
-            Feels like: ${createTempString(current.feels_like)}
+            Feels like: ${createTemperatureString(current.feels_like)}
         </div>
       </div>
       <div class='current-weather-container'>
@@ -83,11 +86,19 @@ function renderMainDisplay(location, weather) {
       <caption>Additioanl Details</caption>
       <tr>
         <th scope='row'>Sunrise</th>
-        <td>${convertDate(current.sunrise, timezone).formattedTime}</td>
+        <td>
+          <time datetime='${timeAttribute(current.sunrise)}'>
+            ${convertDate(current.sunrise, timezone, 'h:mm aa')}
+          </time>
+        </td>
       </tr>
       <tr>
         <th scope='row'>Sunset</th>
-        <td>${convertDate(current.sunset, timezone).formattedTime}</td>
+        <td>
+          <time datetime='${timeAttribute(current.sunset)}'>
+            ${convertDate(current.sunset, timezone, 'h:mm aa')}
+          </time>
+        </td>
       </tr>
       <tr>
         <th scope='row'>Wind</th>
@@ -103,38 +114,6 @@ function renderMainDisplay(location, weather) {
       </tr>
     </table>
     `;
-    //   <div class='current-additional-weather'>
-    //   <div class='current-sunrise-container'>
-    //     <span class='data-label'>Sunrise</span>
-    //     <span class='current-sunrise-'>
-    //       ${convertDate(current.sunrise, timezone).formattedTime}
-    //     </span>
-    //   </div>
-    //   <div class='current-sunset-container'>
-    //     <span>Sunset</span>
-    //     <span class='current-sunset'>
-    //       ${convertDate(current.sunset, timezone).formattedTime}
-    //     </span>
-    //   </div>
-    //   <div class='current-wind-container'>
-    //     <span>Wind</span>
-    //     <span class='current-wind'>
-    //       ${convertWindSpeed(current.wind_speed)}
-    //     </span>
-    //   </div>
-    //   <div class='current-humidity-container'>
-    //     <span>Humidity</span>
-    //     <span class='current-humidity'>
-    //       ${current.humidity}%
-    //     </span>
-    //   </div>
-    //   <div class='current-uvi-container'>
-    //     <span>UV Index</span>
-    //     <span class='current-uvi'>
-    //       ${createUviString(current.uvi)}
-    //     </span>
-    //   </div>
-    // </div>
 
     const fragment = range.createContextualFragment(forecast);
     currentForecastContainer.appendChild(fragment);
@@ -146,19 +125,21 @@ function renderMainDisplay(location, weather) {
   const renderHourlyForecast = () => {
     const hourlyForecastContainer = document.createElement('div');
 
-    for (let i = 0; i < 24; i++) {
+    for (let i = 0; i < 25; i++) {
       const forecast = `
         <table>
           <caption>
-            ${convertDate(hourly[i].dt, timezone).formattedTime}
+            <time datetime='${timeAttribute(hourly[i].dt)}'>
+              ${convertDate(hourly[i].dt, timezone, 'h aa')}
+            </time>
           </caption>
             <tr>
               <th scope='row'>Temperature</th>
-              <td>${createTempString(hourly[i].temp)}</td>
+              <td>${createTemperatureString(hourly[i].temp)}</td>
             </tr>
             <tr>
               <th scope='row'>Will Feel Like</th>
-              <td>${createTempString(hourly[i].feels_like)}</td>
+              <td>${createTemperatureString(hourly[i].feels_like)}</td>
             </tr>
             <tr>
               <th scope='row'>Expected Condition</th>
@@ -170,44 +151,6 @@ function renderMainDisplay(location, weather) {
           </tr>
         </table>
       `;
-
-      // const forecast = `
-      // <div class='hourly-${i}-container'>
-      //   <div id='hourly-${i}-time' class='hourly-time-label'>
-      //     ${convertDate(hourly[i].dt, timezone).formattedTime}
-      //   </div>
-      //   <div class='hourly-temperature-container'>
-      //     <span
-      //       id='hourly-${i}-primary-temp'
-      //       aria-labelledby='hourly-${i}-time hourly-${i}-primary-temp'>
-      //         ${createTempString(hourly[i].temp)}
-      //     </span>
-      //     <span
-      //       id='hourly-${i}-secondary-temp'
-      //       aria-labelledby='hourly-${i}-time hourly-${i}-secondary-temp'>
-      //         Feels like: ${createTempString(hourly[i].feels_like)}
-      //     </span>
-      //   </div>
-      //   <div class='hourly-weather-container'>
-      //     <img
-      //       class='hourly-icon'
-      //       src='${iconURL}${hourly[i].weather[0].icon}.png'
-      //       alt=''
-      //       aria-hidden='true'
-      //     />
-      //     <span
-      //       id='hourly-${i}-description'
-      //       aria-describedby='current-description'>
-      //         ${hourly[i].weather[0].description}
-      //     </span>
-      //     <span
-      //       id='hourly-${i}-precipitation'
-      //       aria-labelledby='hourly-${i}-time hourly-${i}-precipitation'>
-      //         ${(hourly[i].pop * 100).toFixed()}%
-      //     </span>
-      //   </div>
-      // </div>
-      // `;
 
       const fragment = range.createContextualFragment(forecast);
       hourlyForecastContainer.appendChild(fragment);
@@ -225,23 +168,33 @@ function renderMainDisplay(location, weather) {
       const forecast = `
       <table>
         <caption>
-          ${convertDate(daily[i].dt, timezone).formattedDate}
+          <time datetime='${timeAttribute(daily[i].dt)}'>
+            ${convertDate(daily[i].dt, timezone, 'M/d')}
+          </time>
         </caption>
           <tr>
             <th scope='row'>Sunrise</th>
-            <td>${convertDate(daily[i].sunrise, timezone).formattedTime}</td>
+            <td>
+              <time datetime='${timeAttribute(daily[i].sunrise)}'>
+                ${convertDate(daily[i].sunrise, timezone, 'h:mm aa')}
+              </time>
+            </td>
           </tr>
           <tr>
             <th scope='row'>Sunset</th>
-            <td>${convertDate(daily[i].sunset, timezone).formattedTime}</td>
+            <td>
+              <time datetime='${timeAttribute(daily[i].sunset)}'>
+                ${convertDate(daily[i].sunset, timezone, 'h:mm aa')}
+              </time>
+            </td>
           </tr>
           <tr>
             <th scope='row'>High</th>
-            <td>${createTempString(daily[i].temp.max)}</td>
+            <td>${createTemperatureString(daily[i].temp.max)}</td>
           </tr>
           <tr>
             <th scope='row'>Low</th>
-            <td>${createTempString(daily[i].temp.min)}</td>
+            <td>${createTemperatureString(daily[i].temp.min)}</td>
           </tr>
           <tr>
             <th scope='row'>Expected Condition</th>
@@ -253,25 +206,6 @@ function renderMainDisplay(location, weather) {
         </tr>
       </table>
       `;
-
-      // const forecast = `
-      // <div>
-      // ${convertDate(daily[i].dt, timezone).formattedDate}<br>
-
-      // ${createTempString(daily[i].temp.max)} <br>
-      // ${createTempString(daily[i].temp.min)} <br>
-      // <img
-      // class='current-icon'
-      // src='${iconURL}${daily[i].weather[0].icon}.png'
-      // alt=''
-      // aria-hidden='true'
-      // />
-      // ${daily[i].weather[0].description} <br>
-      // ${(daily[i].pop * 100).toFixed()}% <br>
-      // ${convertDate(daily[i].sunrise, timezone).formattedTime}<br>
-      // ${convertDate(daily[i].sunset, timezone).formattedTime} <br>
-      // </div>
-      // `;
 
       const fragment = range.createContextualFragment(forecast);
       dailyForecastContainer.appendChild(fragment);
