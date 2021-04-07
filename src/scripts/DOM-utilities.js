@@ -1,35 +1,6 @@
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 
-// auto scroll the page to the top of forecast container
-// when clicking a new forecast tab
-function scrollToTop() {
-  const offset = document.querySelector('header').scrollHeight;
-  if (document.documentElement.scrollTop > offset) {
-    document.documentElement.scrollTop = `${offset}`;
-  }
-}
-
-function setActiveForecast(target) {
-  Array.from(document.querySelectorAll('.tab')).forEach((tab) => {
-    tab.classList.remove('active-tab');
-    tab.setAttribute('aria-expanded', false);
-  });
-
-  target.classList.add('active-tab');
-  target.setAttribute('aria-expanded', true);
-
-  Array.from(document.querySelectorAll('.forecast')).forEach((display) => {
-    display.classList.remove('active-forecast');
-  });
-
-  const activeForecastId = target.getAttribute('aria-controls');
-  const activeForecastDisplay = document.getElementById(`${activeForecastId}`);
-  activeForecastDisplay.classList.add('active-forecast');
-
-  scrollToTop();
-}
-
 function convertDate(data, zoneOption, pattern) {
   const options = {
     timeZone: `${zoneOption}`,
@@ -91,32 +62,15 @@ function convertWindSpeed(number) {
   return `${number.toFixed()} mph`;
 }
 
-function toggleAriaExpanded(target) {
-  if (target.getAttribute('aria-expanded') === 'false') {
-    target.setAttribute('aria-expanded', 'true');
-  } else {
-    target.setAttribute('aria-expanded', 'false');
-  }
-}
-
-function toggleAlertExpand(e) {
-  if (
-    e.target.className === 'alert-container' ||
-    e.target.parentElement.className === 'alert-container'
-  ) {
-    const alertContainer = document.querySelector('.alert-container');
-    const alertDescription = alertContainer.children[1];
-
-    toggleAriaExpanded(alertContainer);
-    alertDescription.classList.toggle('expanded');
-  }
+function capitalize(string) {
+  const firstLetter = string.charAt(0);
+  return string.replace(firstLetter, firstLetter.toUpperCase());
 }
 
 export {
-  setActiveForecast,
+  capitalize,
   convertDate,
   convertWindSpeed,
   createTemperatureString,
   createUviString,
-  toggleAlertExpand,
 };

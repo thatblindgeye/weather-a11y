@@ -1,4 +1,6 @@
+import expandIcon from '../assets/images/icons/expand_24dp.svg';
 import {
+  capitalize,
   convertDate,
   createTemperatureString,
   convertWindSpeed,
@@ -11,7 +13,7 @@ const timeAttribute = (forecastItem, timezoneData) => {
   return `${convertDate(forecastItem, timezoneData, 'yyyy-MM-dd kk:mm:ss')}`;
 };
 
-function clearMainDisplay() {
+function clearForecastDisplays() {
   Array.from(document.querySelectorAll('.forecast')).forEach((forecast) => {
     while (forecast.lastChild) {
       forecast.removeChild(forecast.lastChild);
@@ -20,24 +22,31 @@ function clearMainDisplay() {
 }
 
 const renderCurrentForecast = (forecastData) => {
-  const { current, timezone, alerts } = forecastData;
+  const { current, timezone } = forecastData;
   const currentForecastContainer = document.createElement('div');
 
-  // const alerts = [
-  //   {
-  //     event: 'Heat Advisory',
-  //     description: `...HEAT ADVISORY REMAINS IN EFFECT FROM 1 PM THIS AFTERNOON TO\n8 PM CDT THIS EVENING...\n* WHAT...Heat index values of 105 to 109 degrees expected.\n* WHERE...Creek, Okfuskee, Okmulgee, McIntosh, Pittsburg,\nLatimer, Pushmataha, and Choctaw Counties.\n* WHEN...From 1 PM to 8 PM CDT Thursday.\n* IMPACTS...The combination of hot temperatures and high\nhumidity will combine to create a dangerous situation in which\nheat illnesses are possible.`,
-  //   },
-  // ];
+  const alerts = [
+    {
+      event: 'Heat Advisory',
+      description: `...HEAT ADVISORY REMAINS IN EFFECT FROM 1 PM THIS AFTERNOON TO\n8 PM CDT THIS EVENING...\n* WHAT...Heat index values of 105 to 109 degrees expected.\n* WHERE...Creek, Okfuskee, Okmulgee, McIntosh, Pittsburg,\nLatimer, Pushmataha, and Choctaw Counties.\n* WHEN...From 1 PM to 8 PM CDT Thursday.\n* IMPACTS...The combination of hot temperatures and high\nhumidity will combine to create a dangerous situation in which\nheat illnesses are possible.`,
+    },
+  ];
 
   if (alerts) {
     const alert = `
-    <div class='alert-container' 
-      role='button' 
-      aria-expanded='false' 
-      tabindex='0'>
-        <span class='alert-name'>${alerts[0].event}</span>
-      <div class='alert-description'>
+    <div id='alert-container'>
+      <div 
+        class='alert-header' 
+        role='button' 
+        aria-label='weather alert'
+        aria-describedby='alert-event'
+        aria-expanded='false' 
+        aria-controls='alert-description'
+        tabindex='0'>
+          <span id='alert-event'>${alerts[0].event}</span>
+          <img class='expand-icon' src='${expandIcon}' aria-hidden='true'/>
+      </div>
+      <div id='alert-description'>
       ${alerts[0].description.replace(/\n/g, '<br>')}
       </div>
     </div>
@@ -74,7 +83,7 @@ const renderCurrentForecast = (forecastData) => {
         id='current-description' 
         aria-label='current weather'
         aria-describedby='current-description'>
-          ${current.weather[0].description}
+          ${capitalize(current.weather[0].description)}
       </div>
     </div>
   </div>
@@ -140,7 +149,7 @@ const renderHourlyForecast = (forecastData) => {
           </tr>
           <tr>
             <th scope='row'>Expected Condition</th>
-            <td>${hourly[i].weather[0].description}</td>
+            <td>${capitalize(hourly[i].weather[0].description)}</td>
           </tr>
           <tr>
           <th scope='row'>Chance of Precipitation</th>
@@ -196,7 +205,7 @@ const renderDailyForecast = (forecastData) => {
         </tr>
         <tr>
           <th scope='row'>Expected Condition</th>
-          <td>${daily[i].weather[0].description}</td>
+          <td>${capitalize(daily[i].weather[0].description)}</td>
         </tr>
         <tr>
         <th scope='row'>Chance of Precipitation</th>
@@ -212,13 +221,13 @@ const renderDailyForecast = (forecastData) => {
   document.getElementById('daily-forecast').appendChild(dailyForecastContainer);
 };
 
-async function renderMainDisplay(locationData, fetchedData) {
+function renderForecastDisplays(locationData, fetchedData) {
   document.getElementById('forecast-header').textContent = locationData;
 
-  clearMainDisplay();
+  clearForecastDisplays();
   renderCurrentForecast(fetchedData);
   renderHourlyForecast(fetchedData);
   renderDailyForecast(fetchedData);
 }
 
-export default renderMainDisplay;
+export default renderForecastDisplays;

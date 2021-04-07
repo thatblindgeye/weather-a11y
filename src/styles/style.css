@@ -9,7 +9,7 @@
       5.2 main content
     6. footer
       6.1 secondary nav
-    7. active/display toggles
+    7. class toggles
     8. media queries
       8.1 responsiveness
       8.2 reduced motion
@@ -417,11 +417,11 @@ nav li::before {
   color: var(--text-primary);
 }
 
-.location-list-container {
+.search-results-container {
   display: none;
 }
 
-.alert-description {
+#alert-description {
   display: none;
 }
 
@@ -466,11 +466,15 @@ footer {
   border-bottom: var(--border-primary);
 }
 
-/* ========== 7. active/display toggles ========== */
+/* ========== 7. class toggles ========== */
 .active-forecast,
 .visible,
-.expanded {
+#alert-container .expanded {
   display: block;
+}
+
+.rotate {
+  transform: rotate(180deg);
 }
 
 /* ========== 8. media queries ========== */

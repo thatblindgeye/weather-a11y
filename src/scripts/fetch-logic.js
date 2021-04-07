@@ -1,4 +1,4 @@
-import renderMainDisplay from './render-weather';
+import renderForecastDisplays from './render-weather';
 import {
   saveLocation,
   loadLocation,
@@ -18,6 +18,8 @@ function clearError() {
 
 const resultsContainer = document.querySelector('.search-results-container');
 const searchInput = document.getElementById('location-search');
+
+// if search returns more than one location from the API
 function renderSearchResults(results) {
   const range = document.createRange();
 
@@ -29,7 +31,7 @@ function renderSearchResults(results) {
   const resultsFragment = range.createContextualFragment(resultsAmount);
 
   const list = document.createElement('ul');
-  list.className = 'location-list';
+  list.className = 'results-list';
 
   for (let i = 0; i < results.length; i++) {
     const item = `
@@ -54,7 +56,7 @@ function clearSearchResults() {
   resultsContainer.classList.remove('visible');
 }
 
-function getSelectedData() {
+function getResultData() {
   return new Promise((resolve) => {
     const promiseFunction = (e) => {
       if (e.target.className === 'result-item') {
@@ -84,7 +86,7 @@ async function convertInputToCoordinates() {
     throw new Error(`Location "${searchInput.value}" not found.`);
   } else if (coordinateData.length > 1) {
     renderSearchResults(coordinateData);
-    const selectedItem = await getSelectedData();
+    const selectedItem = await getResultData();
     return coordinateData[selectedItem];
   }
   return coordinateData[0];
@@ -137,7 +139,7 @@ async function getWeatherData(e) {
       `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely&units=${units}&appid=${API_KEY}`
     );
     const weatherData = await weatherResponse.json();
-    renderMainDisplay(locationName, weatherData);
+    renderForecastDisplays(locationName, weatherData);
   } catch (error) {
     renderError(error.message);
   }

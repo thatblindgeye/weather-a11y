@@ -5,7 +5,12 @@ function saveLocation(name, lat, lon) {
     longitude: lon,
   };
 
-  localStorage.setItem('recent location', JSON.stringify(recentLocation));
+  // prevent saving when searched location matches location in local storage
+  if (
+    localStorage.getItem('recent location') !== JSON.stringify(recentLocation)
+  ) {
+    localStorage.setItem('recent location', JSON.stringify(recentLocation));
+  }
 }
 
 function loadLocation() {
