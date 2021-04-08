@@ -36,7 +36,7 @@ function renderSearchResults(results) {
   for (let i = 0; i < results.length; i++) {
     const item = `
     <li>
-      <a href='#' class='result-item' data-index='${i}'>
+      <a href='#' class='result-item animated' data-index='${i}'>
         ${createLocationString(results[i])}
       </a>
     </li>

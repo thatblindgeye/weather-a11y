@@ -42,6 +42,7 @@
   --bg-header: rgb(18, 18, 80);
   --bg-units-btn: rgb(70, 70, 70);
   --bg-search-input: rgb(30, 30, 30);
+  --bg-result-hover: rgb(50, 50, 50);
   --bg-search-btn: rgb(44, 44, 44);
   /* elevation refs */
   --elevation-00dp: rgb(18, 18, 18); /* text btn, top app bar (rest), */
@@ -67,7 +68,7 @@
   --border-input: 1px inset rgba(255, 255, 255, 0.6);
   --border-input-focus: 2px inset rgba(255, 255, 255, 0.87);
   --border-search-btn: 2px outset rgba(255, 255, 255, 0.6);
-  --border-search-btn-focus: 2px outset rgba(255, 255, 255, 0.87);
+  --border-search-btn-focus: 2px solid rgba(255, 255, 255, 0.87);
   --border-switch: 1px solid rgba(255, 255, 255, 0.6);
   --border-switch-focus: 2px solid rgb(255, 255, 255);
   --border-nav-tab: 2px solid rgba(60, 60, 255, 0.87);
@@ -88,11 +89,12 @@
   --color-secondary: ; /* 500 tonal range */
   --color-secondary-var: ; /* +/- 200 of primary */
   /* backgrounds */
-  --bg-base: rgb(255, 241, 210);
+  --bg-base: rgb(240, 240, 240);
   --bg-accessibility: rgb(255, 185, 65);
   --bg-header: rgb(255, 166, 0);
   --bg-units-btn: rgb(200, 200, 200);
   --bg-search-input: rgb(240, 240, 240);
+  --bg-result-hover: rgb(206, 206, 206);
   --bg-search-btn: rgb(220, 220, 220);
   /* text */
   --text-primary: rgba(0, 0, 0, 0.87);
@@ -103,12 +105,12 @@
   --border-input: 1px inset rgba(0, 0, 0, 0.6);
   --border-input-focus: 2px inset rgba(0, 0, 0, 0.87);
   --border-search-btn: 2px outset rgba(0, 0, 0, 0.6);
-  --border-search-btn-focus: 2px outset rgba(0, 0, 0, 0.87);
+  --border-search-btn-focus: 2px solid rgba(0, 0, 0, 0.87);
   --border-switch: 1px solid rgba(0, 0, 0, 0.6);
   --border-switch-focus: 2px solid rgb(0, 0, 0);
   --border-nav-tab: 2px solid rgba(185, 121, 0, 0.87);
   --border-nav-tab-inactive: 2px solid rgba(185, 121, 0, 0.38);
-  --outline-primary-focus: 1px solid rgba(0, 0, 0, 0.87);
+  --outline-primary-focus: 2px solid rgba(0, 0, 0, 0.87);
   /* images/icons */
   /* misc */
   --error: rgb(176, 0, 32);
@@ -210,12 +212,13 @@ header {
 }
 
 #app-logo {
-  margin-left: 10px;
-  padding: 0 10px 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
   color: var(--text-primary);
-  font-size: 2.5rem;
+  font-size: 1.75rem;
   word-spacing: 0.5rem;
-  text-align: center;
 }
 
 #app-logo:focus {
@@ -227,14 +230,20 @@ header {
   font-size: 0.9rem;
   word-spacing: initial;
   font-weight: bold;
-  text-align: left;
+}
+
+.header-secondary-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .unit-btn-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 25px;
+  margin-top: 20px;
   color: var(--text-primary);
 }
 
@@ -263,6 +272,7 @@ form {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  width: 100%;
   max-width: 400px;
   min-height: 3.25rem;
   margin: 20px 0 0;
@@ -293,6 +303,7 @@ form {
 }
 
 .search-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: calc(90% - 5rem);
@@ -331,6 +342,48 @@ label[for='location-search'] {
 
 .search-icon {
   color: var(--text-primary);
+}
+
+.search-results-container {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  top: 2rem;
+  padding: 5px 0;
+  background-color: var(--bg-search-input);
+  color: var(--text-primary);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.87);
+}
+
+.results-list {
+  margin: 5px 0 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.result-list > li {
+  width: 100%;
+}
+
+.results-amount,
+.result-item {
+  padding: 0 10px;
+}
+
+.result-item {
+  display: inline-block;
+  width: 100%;
+  min-height: 3rem;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  line-height: 3rem;
+  transition: padding 200ms linear;
+}
+
+.result-item:hover,
+.result-item:focus {
+  padding: 0 20px;
+  background-color: var(--bg-result-hover);
 }
 
 .search-error-container {
@@ -489,23 +542,23 @@ footer {
   }
 }
 
-@media only screen and (min-width: 768px) {
-  .header-main {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-
+@media only screen and (min-width: 625px) {
   #app-logo {
-    margin-right: 50px;
-    text-align: left;
+    font-size: 2.5rem;
   }
 
+  .header-secondary-container {
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    max-width: 725px;
+    margin-top: 2.5rem;
+  }
+}
+
+@media only screen and (min-width: 768px) {
   .unit-btn-container {
     margin-top: 22px;
-  }
-
-  form {
-    margin-left: 50px;
   }
 
   .forecast-tabs {
@@ -521,6 +574,23 @@ footer {
 }
 
 @media only screen and (min-width: 1200px) {
+  .header-main {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-left: 1.5rem;
+  }
+
+  #app-logo {
+    align-items: flex-start;
+    font-size: 3rem;
+  }
+
+  .header-secondary-container {
+    justify-content: space-around;
+    margin: 1.5rem 0 0 8rem;
+  }
+
   .forecast-tabs {
     width: 33.33%;
   }
