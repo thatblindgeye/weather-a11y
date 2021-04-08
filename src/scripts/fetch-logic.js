@@ -59,7 +59,7 @@ function clearSearchResults() {
 function getResultData() {
   return new Promise((resolve) => {
     const promiseFunction = (e) => {
-      if (e.target.className === 'result-item') {
+      if (e.target.classList.contains('result-item')) {
         resultsContainer.removeEventListener('click', promiseFunction);
         resolve(e.target.dataset.index);
         clearSearchResults();

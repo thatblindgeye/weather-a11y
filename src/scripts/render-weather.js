@@ -57,7 +57,7 @@ const renderCurrentForecast = (forecastData) => {
   }
 
   const forecast = `
-  <div class='current-main'>
+  <div class='current-main weather-info-container'>
     <div class='current-temps-container'>
       <div 
         id='current-primary-temp' 
@@ -79,15 +79,15 @@ const renderCurrentForecast = (forecastData) => {
         alt='' 
         aria-hidden='true'
       />
-      <div 
-        id='current-description' 
-        aria-label='current weather'
-        aria-describedby='current-description'>
-          ${capitalize(current.weather[0].description)}
-      </div>
     </div>
+    <div 
+    id='current-description' 
+    aria-label='current weather'
+    aria-describedby='current-description'>
+      ${capitalize(current.weather[0].description)}
   </div>
-  <table>
+  </div>
+  <table class='current-table weather-table'>
     <caption>Additioanl Details</caption>
     <tr>
       <th scope='row'>Sunrise</th>
@@ -133,7 +133,7 @@ const renderHourlyForecast = (forecastData) => {
 
   for (let i = 0; i < 25; i++) {
     const forecast = `
-      <table>
+      <table class='hourly-table weather-table'>
         <caption>
           <time datetime='${timeAttribute(hourly[i].dt, timezone)}'>
             ${convertDate(hourly[i].dt, timezone, 'h aa')}
@@ -173,7 +173,7 @@ const renderDailyForecast = (forecastData) => {
 
   for (let i = 0; i < 8; i++) {
     const forecast = `
-    <table>
+    <table class='daily-table weather-table'>
       <caption>
         <time datetime='${timeAttribute(daily[i].dt, timezone)}'>
           ${convertDate(daily[i].dt, timezone, 'M/d')}

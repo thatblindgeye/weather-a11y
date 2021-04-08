@@ -4,6 +4,7 @@
     2. global styles
     3. accessibility
     4. header
+      4.1 location search
     5. main
       5.1 main nav
       5.2 main content
@@ -17,13 +18,18 @@
 
 /* ========== 1. variables ========== */
 :root {
-  /* text */
-  --text-black-high: rgba(0, 0, 0, 0.87);
-  --text-black-med: rgba(0, 0, 0, 0.6);
-  --text-black-low: rgba(0, 0, 0, 0.38);
-  --text-white-high: rgba(255, 255, 255, 0.87);
-  --text-white-med: rgba(255, 255, 255, 0.6);
-  --text-white-low: rgba(255, 255, 255, 0.38);
+  /* backgrounds */
+  --bg-alert-header: rgba(150, 0, 0, 0.87);
+  --bg-alert-description: rgba(175, 0, 0, 0.87);
+  /* black and white */
+  --black-high: rgba(0, 0, 0, 0.87);
+  --black-med: rgba(0, 0, 0, 0.6);
+  --black-low: rgba(0, 0, 0, 0.38);
+  --white-high: rgba(255, 255, 255, 0.871);
+  --white-med: rgba(255, 255, 255, 0.6);
+  --white-low: rgba(255, 255, 255, 0.38);
+  /* borders/outlines */
+  --border-alert: 2px solid rgba(187, 42, 42, 0.87);
   /* misc */
   --active: 0.87;
   --inactive: 0.6;
@@ -44,6 +50,7 @@
   --bg-search-input: rgb(30, 30, 30);
   --bg-result-hover: rgb(50, 50, 50);
   --bg-search-btn: rgb(44, 44, 44);
+  --bg-weather-info: rgb(30, 30, 50);
   /* elevation refs */
   --elevation-00dp: rgb(18, 18, 18); /* text btn, top app bar (rest), */
   --elevation-01dp: rgb(30, 30, 30); /* searchbar (rest), card (rest), switch */
@@ -73,13 +80,15 @@
   --border-switch-focus: 2px solid rgb(255, 255, 255);
   --border-nav-tab: 2px solid rgba(60, 60, 255, 0.87);
   --border-nav-tab-inactive: 2px solid rgba(60, 60, 255, 0.38);
+  --border-table-separator: 2px solid rgb(50, 50, 80);
   --outline-primary-focus: 1px solid rgba(255, 255, 255, 0.87);
   /* images/icons */
   /* misc */
-  --error: rgb(207, 102, 121);
+  --error: rgb(222, 150, 163);
   --warning: rgb(255, 245, 157);
   --success: rgb(165, 214, 167);
   --info: rgb(144, 202, 249);
+  --weather-icon-filter: none;
 }
 
 :root[data-theme='light'] {
@@ -96,6 +105,7 @@
   --bg-search-input: rgb(240, 240, 240);
   --bg-result-hover: rgb(206, 206, 206);
   --bg-search-btn: rgb(220, 220, 220);
+  --bg-weather-info: rgb(255, 255, 255);
   /* text */
   --text-primary: rgba(0, 0, 0, 0.87);
   --text-invert: rgb(255, 255, 255, 0.87);
@@ -110,13 +120,15 @@
   --border-switch-focus: 2px solid rgb(0, 0, 0);
   --border-nav-tab: 2px solid rgba(185, 121, 0, 0.87);
   --border-nav-tab-inactive: 2px solid rgba(185, 121, 0, 0.38);
+  --border-table-separator: 2px solid rgb(201, 201, 201);
   --outline-primary-focus: 2px solid rgba(0, 0, 0, 0.87);
   /* images/icons */
   /* misc */
-  --error: rgb(176, 0, 32);
+  --error: rgb(87, 0, 16);
   --warning: rgb(255, 235, 59);
   --success: rgb(76, 175, 80);
   --info: rgb(33, 150, 243);
+  --weather-icon-filter: drop-shadow(0 0 5px rgb(0, 0, 0));
 }
 
 /* ========== 2. global styles ========== */
@@ -268,6 +280,7 @@ label[for='unit-btn'] {
   text-align: center;
 }
 
+/* ========== 4.1 location search ========== */
 form {
   display: flex;
   justify-content: center;
@@ -345,6 +358,7 @@ label[for='location-search'] {
 }
 
 .search-results-container {
+  display: none;
   position: absolute;
   z-index: 1;
   width: 100%;
@@ -389,13 +403,9 @@ label[for='location-search'] {
 .search-error-container {
   display: none;
   padding: 5px;
-  background-color: var(--error);
-  color: var(--text-invert);
-  font-size: 1rem;
-}
-
-.search-results-container {
-  display: none;
+  color: var(--error);
+  font-size: 0.9rem;
+  font-style: italic;
 }
 
 /* ========== 5. main ========== */
@@ -451,8 +461,14 @@ nav li::before {
   font-weight: bold;
 }
 
+/* ========== 5.2 main content ========== */
+#main {
+  min-height: 100vh;
+  color: var(--text-primary);
+}
+
 .forecast-container {
-  padding: 0 20px;
+  padding: 0 10px;
 }
 
 #forecast-header {
@@ -462,20 +478,115 @@ nav li::before {
 
 .forecast {
   display: none;
+  max-width: 25rem;
+  margin: auto;
 }
 
-/* ========== 5.2 main content ========== */
-#main {
-  min-height: 100vh;
-  color: var(--text-primary);
+#alert-container {
+  margin-bottom: 50px;
+  /* border: var(--border-primary); */
+  color: var(--white-high);
+  box-shadow: 0 5px 10px var(--text-black-low);
 }
 
-.search-results-container {
-  display: none;
+.alert-header {
+  display: flex;
+  justify-content: space-between;
+  height: 2.25rem;
+  padding: 5px 10px;
+  background-color: var(--bg-alert-header);
+  font-size: 1.1rem;
+  /* font-weight: bold; */
 }
 
 #alert-description {
   display: none;
+  padding: 10px;
+  background-color: var(--bg-alert-description);
+  border-top: var(--border-alert);
+}
+
+.weather-info-container,
+.weather-table {
+  background-color: var(--bg-weather-info);
+  box-shadow: 0 0 15px var(--black-low);
+  border-radius: 10px;
+}
+
+.current-main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 10px;
+  /* background-color: rgb(75, 75, 75); */
+}
+
+.current-temps-container {
+  text-align: center;
+}
+
+#current-primary-temp {
+  font-size: 4rem;
+}
+
+.current-icon {
+  width: 150px;
+  height: 150px;
+  filter: var(--weather-icon-filter);
+}
+
+#current-description {
+  width: 100%;
+  margin: 2rem 0 0 0.3rem;
+  font-size: 1.25rem;
+}
+
+.weather-table {
+  width: 100%;
+  padding: 5px;
+}
+
+.current-table,
+.hourly-table:not(:first-of-type),
+.daily-table:not(:first-of-type) {
+  margin-top: 3rem;
+}
+
+tr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 3rem;
+  width: 95%;
+  margin: auto;
+  padding: 5px 0;
+}
+
+tr:not(:last-child) {
+  border-bottom: var(--border-table-separator);
+}
+
+th,
+caption {
+  text-align: left;
+}
+
+caption {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+th,
+td {
+  /* padding: 10px 20px; */
+  font-size: 1.1rem;
+}
+
+td {
+  text-align: right;
+  /* width: 25%; */
 }
 
 /* ========== 6. footer ========== */
@@ -564,13 +675,16 @@ footer {
   .forecast-tabs {
     width: 50%;
   }
+}
+
+@media only screen and (min-width: 992px) {
+  .forecast {
+    margin: 0;
+  }
 
   #forecast-header {
     text-align: left;
   }
-}
-
-@media only screen and (min-width: 992px) {
 }
 
 @media only screen and (min-width: 1200px) {
