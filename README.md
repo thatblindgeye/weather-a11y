@@ -1,16 +1,14 @@
 # Weather A11y
 
-![an image showing the desktop and mobile views of the Weather A11y app](./README_assets/app-image-m.png)
+![an image showing the desktop and mobile views of the app](./README_assets/app-image-m.png)
 
 ## Description
 
-Weather A11y is a weather app built with accessibility in mind. meant to be your 'ally' that helps you plan ahead for any oncoming weather conditions.
+[Weather A11y](https://thatblindgeye.github.io/weather-a11y/) is a weather app built with accessibility in mind. meant to be your 'ally' that helps you plan ahead for any oncoming weather conditions.
 
 ## Features
 
-(current plans; may adjust as work on the project progresses)
-
-- Accessibility-friendly, meant to be easily usable by screen readers, keyboard-only navigation, or other acessible technologies.
+- Accessibility-friendly; meant to be easily usable by screen readers, keyboard-only navigation, or other acessible technologies.
 - Change between metric (Celsius and km/h) and imperial (Fahrenheit and mph) units.
 - Check the current weather, a 24 hour forecast, or a 7 day forecast.
 - The most recent location you searched for will be saved and loaded automatically the next time you use the app.
