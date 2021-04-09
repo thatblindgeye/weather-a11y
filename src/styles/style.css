@@ -7,7 +7,7 @@
       4.1 location search
     5. main
       5.1 main nav
-      5.2 main content
+      5.2 forecast content
     6. footer
       6.1 secondary nav
     7. class toggles
@@ -29,7 +29,7 @@
   --white-med: rgba(255, 255, 255, 0.6);
   --white-low: rgba(255, 255, 255, 0.38);
   /* borders/outlines */
-  --border-alert: 2px solid rgba(187, 42, 42, 0.87);
+  --border-alert: 2px solid var(--bg-base);
   /* misc */
   --active: 0.87;
   --inactive: 0.6;
@@ -62,7 +62,7 @@
     46,
     46,
     46
-  ); /* bottom/side sheet, btm nav/app bar, menu/submenu, card (picked up), btn (pressed) */
+  ); /* btm/side sheet, btm nav/app bar, menu/submenu, card (picked up), btn (press) */
   --elevation-12dp: rgb(51, 51, 51); /* floating action btn (pressed) */
   --elevation-16dp: rgb(54, 54, 54); /* modal bottom/side, nav drawer */
   --elevation-24dp: rgb(56, 56, 56); /* dialogue */
@@ -128,7 +128,7 @@
   --warning: rgb(255, 235, 59);
   --success: rgb(76, 175, 80);
   --info: rgb(33, 150, 243);
-  --weather-icon-filter: drop-shadow(0 0 5px rgb(0, 0, 0));
+  --weather-icon-filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.75));
 }
 
 /* ========== 2. global styles ========== */
@@ -221,6 +221,7 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 13rem;
 }
 
 #app-logo {
@@ -230,6 +231,7 @@ header {
   margin-top: 20px;
   color: var(--text-primary);
   font-size: 1.75rem;
+  text-align: center;
   word-spacing: 0.5rem;
 }
 
@@ -286,7 +288,7 @@ form {
   justify-content: center;
   align-items: flex-start;
   width: 100%;
-  max-width: 400px;
+  max-width: 20rem;
   min-height: 3.25rem;
   margin: 20px 0 0;
   padding-bottom: 20px;
@@ -366,7 +368,7 @@ label[for='location-search'] {
   padding: 5px 0;
   background-color: var(--bg-search-input);
   color: var(--text-primary);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.87);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
 }
 
 .results-list {
@@ -396,7 +398,7 @@ label[for='location-search'] {
 
 .result-item:hover,
 .result-item:focus {
-  padding: 0 20px;
+  padding-left: 20px;
   background-color: var(--bg-result-hover);
 }
 
@@ -461,14 +463,14 @@ nav li::before {
   font-weight: bold;
 }
 
-/* ========== 5.2 main content ========== */
+/* ========== 5.2 forecast content ========== */
 #main {
   min-height: 100vh;
   color: var(--text-primary);
 }
 
 .forecast-container {
-  padding: 0 10px;
+  padding: 0 25px;
 }
 
 #forecast-header {
@@ -484,7 +486,6 @@ nav li::before {
 
 #alert-container {
   margin-bottom: 50px;
-  /* border: var(--border-primary); */
   color: var(--white-high);
   box-shadow: 0 5px 10px var(--text-black-low);
 }
@@ -496,7 +497,6 @@ nav li::before {
   padding: 5px 10px;
   background-color: var(--bg-alert-header);
   font-size: 1.1rem;
-  /* font-weight: bold; */
 }
 
 #alert-description {
@@ -509,7 +509,7 @@ nav li::before {
 .weather-info-container,
 .weather-table {
   background-color: var(--bg-weather-info);
-  box-shadow: 0 0 15px var(--black-low);
+  box-shadow: 0 0 5px var(--black-low);
   border-radius: 10px;
 }
 
@@ -519,7 +519,6 @@ nav li::before {
   justify-content: space-evenly;
   align-items: center;
   padding: 10px;
-  /* background-color: rgb(75, 75, 75); */
 }
 
 .current-temps-container {
@@ -580,13 +579,11 @@ caption {
 
 th,
 td {
-  /* padding: 10px 20px; */
   font-size: 1.1rem;
 }
 
 td {
   text-align: right;
-  /* width: 25%; */
 }
 
 /* ========== 6. footer ========== */
@@ -662,8 +659,12 @@ footer {
     flex-direction: row;
     justify-content: space-evenly;
     align-items: flex-start;
-    max-width: 725px;
+    max-width: 45rem;
     margin-top: 2.5rem;
+  }
+
+  form {
+    width: 65%;
   }
 }
 
@@ -702,7 +703,7 @@ footer {
 
   .header-secondary-container {
     justify-content: space-around;
-    margin: 1.5rem 0 0 8rem;
+    margin: 1.5rem 0 0 50px;
   }
 
   .forecast-tabs {

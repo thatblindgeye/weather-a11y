@@ -56,16 +56,23 @@ function clearSearchResults() {
   resultsContainer.classList.remove('visible');
 }
 
+// boolean variable to prevent multiple listeners being added when multiple
+// submits are made without first selecting a result
+let activeResultsListener = false;
 function getResultData() {
   return new Promise((resolve) => {
     const promiseFunction = (e) => {
       if (e.target.classList.contains('result-item')) {
         resultsContainer.removeEventListener('click', promiseFunction);
+        activeResultsListener = false;
         resolve(e.target.dataset.index);
         clearSearchResults();
       }
     };
-    resultsContainer.addEventListener('click', promiseFunction);
+    if (activeResultsListener === false) {
+      resultsContainer.addEventListener('click', promiseFunction);
+      activeResultsListener = true;
+    }
   });
 }
 

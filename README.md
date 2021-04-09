@@ -1,5 +1,7 @@
 # Weather A11y
 
+![an image showing the desktop and mobile views of the Weather A11y app](./README_assets/app-image-m.png)
+
 ## Description
 
 Weather A11y is a weather app built with accessibility in mind. meant to be your 'ally' that helps you plan ahead for any oncoming weather conditions.
@@ -23,15 +25,10 @@ When you click the geolocation button (to the left of the search field) and allo
 
 ### Search
 
-When attempting to search for a location, you must follow one of the following formats:
+![an image showing search results](./README_assets/search-results-screenshot.png)
 
-- city only, e.g. "Paris"
-- city and state, e.g. "Paris, TX"
-- city and country code, e.g. "Toronto, CA"
-- city, state, and country code, e.g. "Toronto, Ontario, CA"
+You can search for a location by using any combination of city, state, and country. If your search returns more than one result, you'll be able to choose from the available results. If youre search returns no results, try adding to or changing your search. For example, instead of "Paris, TX", try searching just "Paris" or "Paris, TX, US".
 
 ### Change Units
 
 Click the 'current units' button and you're all set! If you change the units before submitting a location, the weather data will be returned in the selected units. If you change the units for the currently dispalyed weather, a new API request will be made.
-
-## Issues During Creation/Misc. Notes
