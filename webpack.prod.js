@@ -58,7 +58,7 @@ module.exports = merge(common, {
   plugins: [
     new HtmlWebpackPlugin({
       template: '/template.html',
-      filename: 'index.[contenthash:15].html',
+      filename: 'index.html',
       inject: 'body',
       minify: true,
       // links html to entry
