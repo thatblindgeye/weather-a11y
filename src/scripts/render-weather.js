@@ -1,4 +1,4 @@
-import expandIcon from '../assets/images/icons/expand_24dp.svg';
+import expandArrow from '../assets/images/icons/expand_24dp.svg';
 import {
   capitalize,
   convertDate,
@@ -25,6 +25,7 @@ const renderCurrentForecast = (forecastData) => {
   const { current, timezone, alerts } = forecastData;
   const currentForecastContainer = document.createElement('div');
 
+  // to test the rendering of alerts
   // const alerts = [
   //   {
   //     event: 'Heat Advisory',
@@ -44,7 +45,7 @@ const renderCurrentForecast = (forecastData) => {
         aria-controls='alert-description'
         tabindex='0'>
           <span id='alert-event'>${alerts[0].event}</span>
-          <img class='expand-icon' src='${expandIcon}' aria-hidden='true'/>
+          <img class='expand-icon' src='${expandArrow}' aria-hidden='true'/>
       </div>
       <div id='alert-description'>
       ${alerts[0].description.replace(/\n/g, '<br>')}

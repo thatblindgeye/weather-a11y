@@ -289,7 +289,6 @@ form {
   align-items: flex-start;
   width: 100%;
   max-width: 20rem;
-  min-height: 3.25rem;
   margin: 20px 0 0;
   padding-bottom: 20px;
 }
@@ -324,7 +323,7 @@ form {
   width: calc(90% - 5rem);
 }
 
-input[type='text'] {
+#location-search {
   height: 2rem;
   padding: 0 5px;
   background-color: var(--bg-search-input);
@@ -333,7 +332,7 @@ input[type='text'] {
   font-size: 1rem;
 }
 
-input[type='text']:focus {
+#location-search:focus {
   border: var(--border-input-focus);
 }
 
@@ -418,11 +417,6 @@ label[for='location-search'] {
   width: 100%;
   min-height: 3rem;
   background-color: var(--bg-base);
-}
-
-/* remove styling from sanitize.css */
-nav li::before {
-  content: '';
 }
 
 .forecast-tabs {
