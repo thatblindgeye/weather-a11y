@@ -5,27 +5,39 @@ import {
   createLocationString,
 } from './location-utilities';
 
-const errorContainer = document.querySelector('.search-error-container');
+function clearDynamicContainers() {
+  const errorContainer = document.querySelector('.search-error-container');
+  const resultsContainer = document.querySelector('.search-results-container');
+
+  if (errorContainer) {
+    errorContainer.remove();
+  }
+
+  if (resultsContainer) {
+    resultsContainer.remove();
+  }
+}
+
 function renderError(message) {
-  errorContainer.classList.add('visible');
-  errorContainer.textContent = message;
+  const range = document.createRange();
+
+  const errorContainer = `<div class="search-error-container">${message}</div>`;
+
+  const errorFragment = range.createContextualFragment(errorContainer);
+  document
+    .querySelector('.search-container')
+    .insertBefore(
+      errorFragment,
+      document.querySelector('label[for="location-search"]')
+    );
 }
 
-function clearError() {
-  errorContainer.classList.remove('visible');
-  errorContainer.textContent = '';
-}
-
-// const resultsContainer = document.querySelector('.search-results-container');
 const searchInput = document.getElementById('location-search');
-
-// if search returns more than one location from the API
+// if search returns more than one location from the API, creates a list of results
 function renderSearchResults(results) {
   const range = document.createRange();
 
-  const resultsContainer = `
-  <div class='search-results-container'></div>
-  `;
+  const resultsContainer = `<div class='search-results-container'></div>`;
   const containerFragment = range.createContextualFragment(resultsContainer);
 
   const resultsAmount = `
@@ -61,27 +73,8 @@ function renderSearchResults(results) {
   document
     .querySelector('.search-results-container')
     .append(resultsFragment, list);
-  // resultsContainer.classList.add('visible');
-  // setTimeout(() => {
-  //   resultsContainer.append(resultsFragment, list);
-  // }, 0);
 }
 
-function clearSearchResults() {
-  const resultsContainer = document.querySelector('.search-results-container');
-
-  if (resultsContainer) {
-    resultsContainer.remove();
-  }
-  // while (resultsContainer.lastChild) {
-  //   resultsContainer.removeChild(resultsContainer.lastChild);
-  // }
-  // resultsContainer.classList.remove('visible');
-}
-
-// boolean variable to prevent multiple listeners being added when multiple
-// submits are made without first selecting a result
-// let activeResultsListener = false;
 function getResultData() {
   const resultsContainer = document.querySelector('.search-results-container');
 
@@ -89,16 +82,12 @@ function getResultData() {
     const promiseFunction = (e) => {
       if (e.target.classList.contains('result-item')) {
         resultsContainer.removeEventListener('click', promiseFunction);
-        // activeResultsListener = false;
         resolve(e.target.dataset.index);
-        clearSearchResults();
+        clearDynamicContainers();
       }
     };
 
-    // if (activeResultsListener === false) {
     resultsContainer.addEventListener('click', promiseFunction);
-    //   activeResultsListener = true;
-    // }
   });
 }
 
@@ -141,8 +130,7 @@ function getUserGeolocation() {
 }
 
 async function getWeatherData(e) {
-  clearError();
-  clearSearchResults();
+  clearDynamicContainers();
 
   const units = localStorage.getItem('units');
   let coordinateResponse;
