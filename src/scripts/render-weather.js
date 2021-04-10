@@ -22,16 +22,15 @@ function clearForecastDisplays() {
 }
 
 const renderCurrentForecast = (forecastData) => {
-  const { current, timezone, alerts } = forecastData;
+  const { current, timezone } = forecastData;
   const currentForecastContainer = document.createElement('div');
 
-  // to test the rendering of alerts
-  // const alerts = [
-  //   {
-  //     event: 'Heat Advisory',
-  //     description: `...HEAT ADVISORY REMAINS IN EFFECT FROM 1 PM THIS AFTERNOON TO\n8 PM CDT THIS EVENING...\n* WHAT...Heat index values of 105 to 109 degrees expected.\n* WHERE...Creek, Okfuskee, Okmulgee, McIntosh, Pittsburg,\nLatimer, Pushmataha, and Choctaw Counties.\n* WHEN...From 1 PM to 8 PM CDT Thursday.\n* IMPACTS...The combination of hot temperatures and high\nhumidity will combine to create a dangerous situation in which\nheat illnesses are possible.`,
-  //   },
-  // ];
+  const alerts = [
+    {
+      event: 'something',
+      description: 'some stuff happened',
+    },
+  ];
 
   if (alerts) {
     const alert = `
@@ -223,7 +222,10 @@ const renderDailyForecast = (forecastData) => {
 };
 
 function renderForecastDisplays(locationData, fetchedData) {
-  document.getElementById('forecast-header').textContent = locationData;
+  const forecastHeader = document.getElementById('forecast-header');
+  forecastHeader.setAttribute('aria-label', 'forecast for');
+  forecastHeader.setAttribute('aria-describedby', 'forecast-header');
+  forecastHeader.textContent = locationData;
 
   clearForecastDisplays();
   renderCurrentForecast(fetchedData);

@@ -81,7 +81,7 @@
   --border-nav-tab: 2px solid rgba(60, 60, 255, 0.87);
   --border-nav-tab-inactive: 2px solid rgba(60, 60, 255, 0.38);
   --border-table-separator: 2px solid rgb(50, 50, 80);
-  --outline-primary-focus: 1px solid rgba(255, 255, 255, 0.87);
+  --outline-primary-focus: 1px solid rgba(255, 255, 255, 0.6);
   /* images/icons */
   /* misc */
   --error: rgb(222, 150, 163);
@@ -121,7 +121,7 @@
   --border-nav-tab: 2px solid rgba(185, 121, 0, 0.87);
   --border-nav-tab-inactive: 2px solid rgba(185, 121, 0, 0.38);
   --border-table-separator: 2px solid rgb(201, 201, 201);
-  --outline-primary-focus: 2px solid rgba(0, 0, 0, 0.87);
+  --outline-primary-focus: 2px solid rgba(0, 0, 0, 0.6);
   /* images/icons */
   /* misc */
   --error: rgb(87, 0, 16);
@@ -480,6 +480,11 @@ label[for='location-search'] {
   margin-bottom: 50px;
   color: var(--white-high);
   box-shadow: 0 5px 10px var(--text-black-low);
+}
+
+#alert-container:focus-within {
+  outline: var(--outline-primary-focus);
+  outline-offset: 2px;
 }
 
 .alert-header {

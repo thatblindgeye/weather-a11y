@@ -49,6 +49,7 @@ function renderSearchResults(results) {
 
   const list = document.createElement('ul');
   list.className = 'results-list';
+  list.setAttribute('aria-label', `results for ${searchInput.value}`);
 
   for (let i = 0; i < results.length; i++) {
     const item = `
