@@ -7,21 +7,26 @@ import {
 
 const errorContainer = document.querySelector('.search-error-container');
 function renderError(message) {
-  errorContainer.textContent = message;
   errorContainer.classList.add('visible');
+  errorContainer.textContent = message;
 }
 
 function clearError() {
-  errorContainer.textContent = '';
   errorContainer.classList.remove('visible');
+  errorContainer.textContent = '';
 }
 
-const resultsContainer = document.querySelector('.search-results-container');
+// const resultsContainer = document.querySelector('.search-results-container');
 const searchInput = document.getElementById('location-search');
 
 // if search returns more than one location from the API
 function renderSearchResults(results) {
   const range = document.createRange();
+
+  const resultsContainer = `
+  <div class='search-results-container' aria-live='polite'></div>
+  `;
+  const containerFragment = range.createContextualFragment(resultsContainer);
 
   const resultsAmount = `
     <div class='results-amount' aria-role='status'>
@@ -45,34 +50,55 @@ function renderSearchResults(results) {
     const itemFragment = range.createContextualFragment(item);
     list.appendChild(itemFragment);
   }
-  resultsContainer.append(resultsFragment, list);
-  resultsContainer.classList.add('visible');
+
+  document
+    .querySelector('.search-container')
+    .insertBefore(
+      containerFragment,
+      document.querySelector('label[for="location-search"]')
+    );
+
+  document
+    .querySelector('.search-results-container')
+    .append(resultsFragment, list);
+  // resultsContainer.classList.add('visible');
+  // setTimeout(() => {
+  //   resultsContainer.append(resultsFragment, list);
+  // }, 0);
 }
 
 function clearSearchResults() {
-  while (resultsContainer.lastChild) {
-    resultsContainer.removeChild(resultsContainer.lastChild);
+  const resultsContainer = document.querySelector('.search-results-container');
+
+  if (resultsContainer) {
+    resultsContainer.remove();
   }
-  resultsContainer.classList.remove('visible');
+  // while (resultsContainer.lastChild) {
+  //   resultsContainer.removeChild(resultsContainer.lastChild);
+  // }
+  // resultsContainer.classList.remove('visible');
 }
 
 // boolean variable to prevent multiple listeners being added when multiple
 // submits are made without first selecting a result
-let activeResultsListener = false;
+// let activeResultsListener = false;
 function getResultData() {
+  const resultsContainer = document.querySelector('.search-results-container');
+
   return new Promise((resolve) => {
     const promiseFunction = (e) => {
       if (e.target.classList.contains('result-item')) {
         resultsContainer.removeEventListener('click', promiseFunction);
-        activeResultsListener = false;
+        // activeResultsListener = false;
         resolve(e.target.dataset.index);
         clearSearchResults();
       }
     };
-    if (activeResultsListener === false) {
-      resultsContainer.addEventListener('click', promiseFunction);
-      activeResultsListener = true;
-    }
+
+    // if (activeResultsListener === false) {
+    resultsContainer.addEventListener('click', promiseFunction);
+    //   activeResultsListener = true;
+    // }
   });
 }
 

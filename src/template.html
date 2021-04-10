@@ -76,19 +76,22 @@
       </div>
       <div class="header-main">
         <div class="logo-container">
-          <a href="#" id="app-logo" aria-describedby="app-description"
-            >Weather A11y
-            <div id="app-description">the accessible weather tracker</div>
+          <a href="#" id="app-logo">
+            Weather A11y
+            <div>the accessible weather tracker</div>
           </a>
         </div>
         <div class="header-secondary-container">
           <div class="unit-btn-container">
-            <button type="button" id="unit-btn" aria-live="polite">
+            <button
+              type="button"
+              id="unit-btn"
+              aria-live="polite"
+              aria-describedby="unit-btn"
+            >
               Imperial
             </button>
-            <label for="unit-btn" aria-describedby="unit-btn"
-              >Current units</label
-            >
+            <label for="unit-btn">Current units</label>
           </div>
           <form>
             <button
@@ -112,7 +115,7 @@
             </button>
             <div class="search-container">
               <input id="location-search" type="text" autocomplete="off" />
-              <div class="search-results-container" aria-live="polite"></div>
+              <!-- <div class="search-results-container" aria-live="polite"></div> -->
               <div class="search-error-container" aria-live="polite"></div>
               <label for="location-search"
                 >Enter city, state, and/or country<br />
@@ -187,8 +190,8 @@
           </li>
         </ul>
       </nav>
-      <div class="forecast-container" aria-live="polite">
-        <h1 id="forecast-header">No location set</h1>
+      <div class="forecast-container">
+        <h1 id="forecast-header" aria-live="polite">No location set</h1>
         <article
           id="current-forecast"
           class="forecast active-forecast"
