@@ -24,12 +24,12 @@ function renderSearchResults(results) {
   const range = document.createRange();
 
   const resultsContainer = `
-  <div class='search-results-container' aria-live='polite'></div>
+  <div class='search-results-container'></div>
   `;
   const containerFragment = range.createContextualFragment(resultsContainer);
 
   const resultsAmount = `
-    <div class='results-amount' aria-role='status'>
+    <div class='results-amount' role='status'>
       ${results.length} results for "${searchInput.value}":
     </div>
   `;
