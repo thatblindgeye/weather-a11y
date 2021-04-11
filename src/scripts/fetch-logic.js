@@ -131,36 +131,39 @@ function getUserGeolocation() {
   });
 }
 
-async function getWeatherData(e) {
+async function fetchLocationData(e) {
+  if (e.type === 'submit') {
+    const coordinateResponse = await convertInputToCoordinates();
+    saveLocation(
+      createLocationString(coordinateResponse),
+      coordinateResponse.lat,
+      coordinateResponse.lon
+    );
+  } else if (e.currentTarget === document.querySelector('.use-location-btn')) {
+    const coordinateResponse = await getUserGeolocation();
+    saveLocation(
+      'Current Location',
+      coordinateResponse.coords.latitude,
+      coordinateResponse.coords.longitude
+    );
+  }
+}
+
+async function getWeather(e) {
   clearDynamicContainers();
 
-  const units = localStorage.getItem('units');
-  let coordinateResponse;
-  let locationName;
-  let latitude;
-  let longitude;
-
   try {
-    if (e.type === 'load' || e.target === document.getElementById('unit-btn')) {
-      [locationName, latitude, longitude] = loadLocation();
-    } else if (e.type === 'submit') {
-      coordinateResponse = await convertInputToCoordinates();
-      locationName = createLocationString(coordinateResponse);
-      latitude = coordinateResponse.lat;
-      longitude = coordinateResponse.lon;
-    } else {
-      coordinateResponse = await getUserGeolocation();
-      locationName = 'Current Location';
-      latitude = coordinateResponse.coords.latitude;
-      longitude = coordinateResponse.coords.longitude;
-    }
+    await fetchLocationData(e);
+    const [locationName, latitude, longitude] = loadLocation();
+    const units = localStorage.getItem('units');
+
     searchInput.value = '';
-    saveLocation(locationName, latitude, longitude);
     document.getElementById('forecast-header').textContent = 'Loading...';
 
     const weatherResponse = await fetch(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely&units=${units}&appid=${API_KEY}`
     );
+
     const weatherData = await weatherResponse.json();
     renderForecastDisplays(locationName, weatherData);
   } catch (error) {
@@ -168,4 +171,4 @@ async function getWeatherData(e) {
   }
 }
 
-export default getWeatherData;
+export default getWeather;

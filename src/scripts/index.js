@@ -2,21 +2,21 @@ import '../styles/sanitize.css';
 import '../styles/style.css';
 import { themeOnLoad, toggleTheme } from './theme-settings';
 import { checkForSavedUnits, changeUnitType } from './unit-utilities';
-import getWeatherData from './fetch-logic';
+import getWeather from './fetch-logic';
 
 window.addEventListener('load', (e) => {
   themeOnLoad();
   checkForSavedUnits();
 
   if (localStorage.getItem('recent location')) {
-    getWeatherData(e);
+    getWeather(e);
   }
 });
 
 document.getElementById('unit-btn').addEventListener('click', (e) => {
   changeUnitType();
   if (localStorage.getItem('recent location')) {
-    getWeatherData(e);
+    getWeather(e);
   }
 });
 
@@ -77,12 +77,12 @@ Array.from(forecastTabs).forEach((tab) => {
 const defaultTab = document.getElementById('current-tab');
 document.querySelector('form').addEventListener('submit', (e) => {
   e.preventDefault();
-  getWeatherData(e);
+  getWeather(e);
   setActiveForecast(defaultTab);
 });
 
 document.querySelector('.use-location-btn').addEventListener('click', (e) => {
-  getWeatherData(e);
+  getWeather(e);
   setActiveForecast(defaultTab);
 });
 
