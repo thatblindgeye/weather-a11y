@@ -381,16 +381,17 @@ label[for='location-search'] {
 
 .results-amount,
 .result-item {
-  padding: 0 10px;
+  padding: 5px 10px;
 }
 
 .result-item {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   width: 100%;
   min-height: 3rem;
   color: var(--text-primary);
   font-size: 1.1rem;
-  line-height: 3rem;
+  /* line-height: 3rem; */
   transition: padding 200ms linear;
 }
 

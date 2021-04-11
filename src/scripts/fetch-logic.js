@@ -5,6 +5,7 @@ import {
   createLocationString,
 } from './location-utilities';
 
+// remove errors and results only when they are in the DOM
 function clearDynamicContainers() {
   const errorContainer = document.querySelector('.search-error-container');
   const resultsContainer = document.querySelector('.search-results-container');
@@ -33,7 +34,7 @@ function renderError(message) {
 }
 
 const searchInput = document.getElementById('location-search');
-// if search returns more than one location from the API, creates a list of results
+// if search returns >1 location from the API, creates a list of results
 function renderSearchResults(results) {
   const range = document.createRange();
 
@@ -100,7 +101,7 @@ async function convertInputToCoordinates() {
   }
 
   const searchResponse = await fetch(
-    `http://api.openweathermap.org/geo/1.0/direct?q=${searchInput.value}&limit=10&appid=${API_KEY}`,
+    `https://api.openweathermap.org/geo/1.0/direct?q=${searchInput.value}&limit=10&appid=${API_KEY}`,
     { mode: 'cors' }
   );
 

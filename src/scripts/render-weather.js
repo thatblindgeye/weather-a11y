@@ -22,15 +22,8 @@ function clearForecastDisplays() {
 }
 
 const renderCurrentForecast = (forecastData) => {
-  const { current, timezone } = forecastData;
+  const { current, timezone, alerts } = forecastData;
   const currentForecastContainer = document.createElement('div');
-
-  const alerts = [
-    {
-      event: 'something',
-      description: 'some stuff happened',
-    },
-  ];
 
   if (alerts) {
     const alert = `
@@ -222,10 +215,9 @@ const renderDailyForecast = (forecastData) => {
 };
 
 function renderForecastDisplays(locationData, fetchedData) {
-  const forecastHeader = document.getElementById('forecast-header');
-  forecastHeader.setAttribute('aria-label', 'forecast for');
-  forecastHeader.setAttribute('aria-describedby', 'forecast-header');
-  forecastHeader.textContent = locationData;
+  document.getElementById(
+    'forecast-header'
+  ).textContent = `Forecast for ${locationData}`;
 
   clearForecastDisplays();
   renderCurrentForecast(fetchedData);

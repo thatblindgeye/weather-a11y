@@ -2,7 +2,6 @@ import '../styles/sanitize.css';
 import '../styles/style.css';
 import { themeOnLoad, toggleTheme } from './theme-settings';
 import { checkForSavedUnits, changeUnitType } from './unit-utilities';
-// import { toggleAlertExpand } from './DOM-utilities';
 import getWeatherData from './fetch-logic';
 
 window.addEventListener('load', (e) => {
