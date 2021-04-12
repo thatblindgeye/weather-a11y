@@ -25,7 +25,9 @@ When you click the geolocation button (to the left of the search field) and allo
 
 ![an image showing search results](./README_assets/search-results-screenshot.png)
 
-You can search for a location by using any combination of city, state, and country. If your search returns more than one result, you'll be able to choose from the available results. If youre search returns no results, try adding to or changing your search. For example, instead of "Paris, TX", try searching just "Paris" or "Paris, TX, US".
+You can search for a location by city only ("Paris"), city and country ("Paris, FR" for Paris, France), or city, state, and country ("Paris, TX, US"). If your search returns more than one result, you'll be able to choose from the available results.
+
+**Note:** When searching for a city in the United States, you must provide the "US" country code if you want to include the state.
 
 ### Change Units
 
