@@ -3,7 +3,6 @@ function saveUnitType(unit) {
 }
 
 const unitButton = document.getElementById('unit-btn');
-const unitButtonLabel = document.getElementById('unit-btn-label');
 function changeUnitType() {
   if (localStorage.getItem('units') === 'metric') {
     unitButton.textContent = `Imperial Units`;

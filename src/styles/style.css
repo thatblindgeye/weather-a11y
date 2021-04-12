@@ -19,13 +19,11 @@
 /* ========== 1. variables ========== */
 :root {
   /* backgrounds */
-  --bg-alert-header: rgba(150, 0, 0, 0.87);
-  --bg-alert-description: rgba(175, 0, 0, 0.87);
   /* black and white */
   --black-high: rgba(0, 0, 0, 0.87);
   --black-med: rgba(0, 0, 0, 0.6);
   --black-low: rgba(0, 0, 0, 0.38);
-  --white-high: rgba(255, 255, 255, 0.871);
+  --white-high: rgba(255, 255, 255, 0.87);
   --white-med: rgba(255, 255, 255, 0.6);
   --white-low: rgba(255, 255, 255, 0.38);
   /* borders/outlines */
@@ -51,6 +49,8 @@
   --bg-result-hover: rgb(50, 50, 50);
   --bg-search-btn: rgb(44, 44, 44);
   --bg-weather-info: rgb(30, 30, 50);
+  --bg-alert-header: rgba(150, 0, 0, 0.87);
+  --bg-alert-description: rgba(175, 0, 0, 0.87);
   /* elevation refs */
   --elevation-00dp: rgb(18, 18, 18); /* text btn, top app bar (rest), */
   --elevation-01dp: rgb(30, 30, 30); /* searchbar (rest), card (rest), switch */
@@ -108,6 +108,8 @@
   --bg-result-hover: rgb(206, 206, 206);
   --bg-search-btn: rgb(220, 220, 220);
   --bg-weather-info: rgb(255, 255, 255);
+  --bg-alert-header: rgba(100, 0, 0, 0.87);
+  --bg-alert-description: rgba(125, 0, 0, 0.87);
   /* text */
   --text-primary: rgba(0, 0, 0, 0.87);
   --text-invert: rgb(255, 255, 255, 0.87);
