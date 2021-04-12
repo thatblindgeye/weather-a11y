@@ -277,11 +277,12 @@ header {
 
 #unit-btn {
   display: block;
-  width: 6rem;
-  padding: 5px 0;
+  width: 6.5rem;
+  height: 3rem;
+  padding: 0 10px;
   background-color: var(--bg-units-btn);
   border: var(--border-primary);
-  border-radius: 10px;
+  border-radius: 20px;
   color: var(--text-primary);
   opacity: 0.87;
   font-size: 1rem;
@@ -625,6 +626,8 @@ footer {
 }
 
 .github-icon {
+  width: 2rem;
+  height: auto;
   opacity: 0.6;
   transition: transform 200ms linear;
 }
