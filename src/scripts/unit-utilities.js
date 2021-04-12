@@ -21,12 +21,4 @@ function loadUnitType() {
   }
 }
 
-function checkForSavedUnits() {
-  if (!localStorage.getItem('units')) {
-    saveUnitType('imperial');
-  } else {
-    loadUnitType();
-  }
-}
-
-export { checkForSavedUnits, changeUnitType };
+export { loadUnitType, changeUnitType };

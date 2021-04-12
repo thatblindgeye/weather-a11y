@@ -1,12 +1,12 @@
 import '../styles/sanitize.css';
 import '../styles/style.css';
 import { themeOnLoad, toggleTheme } from './theme-settings';
-import { checkForSavedUnits, changeUnitType } from './unit-utilities';
+import { changeUnitType, loadUnitType } from './unit-utilities';
 import getWeather from './fetch-logic';
 
 window.addEventListener('load', (e) => {
   themeOnLoad();
-  checkForSavedUnits();
+  loadUnitType();
 
   if (localStorage.getItem('recent location')) {
     getWeather(e);

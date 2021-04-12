@@ -153,7 +153,7 @@ async function getWeather(e) {
   try {
     await fetchLocationData(e);
     const [locationName, latitude, longitude] = loadLocation();
-    const units = localStorage.getItem('units');
+    const units = localStorage.getItem('units') || 'imperial';
 
     searchInput.value = '';
     document.getElementById('forecast-header').textContent = 'Loading...';
