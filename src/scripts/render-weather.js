@@ -75,7 +75,7 @@ const renderCurrentForecast = (forecastData) => {
     </div>
     <div 
     id='current-description' 
-    aria-label='current weather'
+    aria-label='current condition'
     aria-describedby='current-description'>
       ${capitalize(current.weather[0].description)}
   </div>

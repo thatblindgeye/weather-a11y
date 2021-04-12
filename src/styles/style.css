@@ -67,8 +67,10 @@
   --elevation-16dp: rgb(54, 54, 54); /* modal bottom/side, nav drawer */
   --elevation-24dp: rgb(56, 56, 56); /* dialogue */
   /* text */
-  --text-primary: rgb(255, 255, 255, 0.87);
+  --text-primary: rgba(255, 255, 255, 0.871);
   --text-invert: rgba(0, 0, 0, 0.87);
+  --text-link-unvisited: rgb(153, 153, 255);
+  --text-link-visited: rgb(204, 128, 255);
   /* borders/outlines */
   --border-primary: 1px solid rgba(255, 255, 255, 0.6);
   --border-primary-focus: 1px solid rgb(255, 255, 255);
@@ -109,6 +111,8 @@
   /* text */
   --text-primary: rgba(0, 0, 0, 0.87);
   --text-invert: rgb(255, 255, 255, 0.87);
+  --text-link-unvisited: #1414ff;
+  --text-link-visited: #7400c2;
   /* borders/outlines */
   --border-primary: 1px solid rgba(0, 0, 0, 0.6);
   --border-primary-focus: 1px solid rgb(0, 0, 0);
@@ -142,7 +146,12 @@ body {
 }
 
 a {
-  text-decoration: none;
+  text-decoration: underline solid;
+}
+
+a:hover,
+a:focus {
+  border-bottom: var(--border-primary);
 }
 
 button:hover,
@@ -163,12 +172,10 @@ button:hover,
 #skip-link {
   color: var(--text-primary);
   border-bottom: 1px solid transparent;
-  text-decoration: none;
 }
 
 #skip-link:hover,
 #skip-link:focus {
-  outline: none;
   border-bottom: var(--border-primary);
 }
 
@@ -232,11 +239,18 @@ header {
   color: var(--text-primary);
   font-size: 1.75rem;
   text-align: center;
+  text-decoration: none;
   word-spacing: 0.5rem;
+}
+
+#app-logo:hover,
+#app-logo:focus {
+  border: none;
 }
 
 #app-logo:focus {
   outline: var(--outline-primary-focus);
+  outline-offset: 2px;
 }
 
 #app-logo > div {
@@ -277,7 +291,7 @@ header {
   box-shadow: 0 0 0 2px var(--text-primary);
 }
 
-label[for='unit-btn'] {
+.unit-btn-container div {
   margin-top: 5px;
   text-align: center;
 }
@@ -391,7 +405,7 @@ label[for='location-search'] {
   min-height: 3rem;
   color: var(--text-primary);
   font-size: 1.1rem;
-  /* line-height: 3rem; */
+  text-decoration: none;
   transition: padding 200ms linear;
 }
 
@@ -399,6 +413,7 @@ label[for='location-search'] {
 .result-item:focus {
   padding-left: 20px;
   background-color: var(--bg-result-hover);
+  border: none;
 }
 
 .search-error-container {
@@ -446,7 +461,6 @@ label[for='location-search'] {
 
 .tab:hover,
 .tab:focus {
-  outline: none;
   border-bottom: var(--border-nav-tab);
   border-top: var(--border-nav-tab);
 }
@@ -590,7 +604,6 @@ td {
 footer {
   display: flex;
   justify-content: center;
-  width: 100%;
   margin-top: 50px;
   padding: 20px;
   color: var(--text-primary);
@@ -601,12 +614,13 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 75%;
+  width: 90%;
 }
 
 .github-link {
   margin-top: 15px;
   color: var(--text-primary);
+  border-bottom: 1px solid transparent;
   text-align: center;
 }
 
@@ -622,6 +636,27 @@ footer {
 
 .github-link:hover,
 .github-link:focus {
+  border-bottom: var(--border-primary);
+}
+
+.contact-info {
+  width: 100%;
+  max-width: 80ch;
+  margin-top: 40px;
+  text-align: left;
+}
+
+.contact-info > a {
+  color: var(--text-link-unvisited);
+  text-decoration: underline;
+}
+
+.contact-info > a:visited {
+  color: var(--text-link-visited);
+}
+
+.contact-info > a:hover,
+.contact-info > a:focus {
   border-bottom: var(--border-primary);
 }
 

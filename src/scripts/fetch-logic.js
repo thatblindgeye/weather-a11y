@@ -5,7 +5,6 @@ import {
   createLocationString,
 } from './location-utilities';
 
-// remove errors and results only when they are in the DOM
 function clearDynamicContainers() {
   const errorContainer = document.querySelector('.search-error-container');
   const resultsContainer = document.querySelector('.search-results-container');
@@ -21,10 +20,9 @@ function clearDynamicContainers() {
 
 function renderError(message) {
   const range = document.createRange();
-
   const errorContainer = `<div class="search-error-container">${message}</div>`;
-
   const errorFragment = range.createContextualFragment(errorContainer);
+
   document
     .querySelector('.search-container')
     .insertBefore(
@@ -40,12 +38,10 @@ function renderSearchResults(results) {
 
   const resultsContainer = `<div class='search-results-container'></div>`;
   const containerFragment = range.createContextualFragment(resultsContainer);
-
   const resultsAmount = `
-    <div class='results-amount' role='status'>
+    <div class='results-amount'>
       ${results.length} results for "${searchInput.value}":
-    </div>
-  `;
+    </div>`;
   const resultsFragment = range.createContextualFragment(resultsAmount);
 
   const list = document.createElement('ul');
@@ -77,6 +73,8 @@ function renderSearchResults(results) {
     .append(resultsFragment, list);
 }
 
+// Add listener to return selected data-index attribute and pass along to API
+// and remove listener to prevent duplicate event listeners
 function getResultData() {
   const resultsContainer = document.querySelector('.search-results-container');
 
