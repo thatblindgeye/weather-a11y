@@ -81,7 +81,7 @@ const renderCurrentForecast = (forecastData) => {
   </div>
   </div>
   <table class='current-table weather-table'>
-    <caption>Additioanl Details</caption>
+    <caption>Additional Details</caption>
     <tr>
       <th scope='row'>Sunrise</th>
       <td>
